@@ -4,7 +4,7 @@ export const siteContent = {
     tagline: "Redesigning Remodeling."
   },
   hero: {
-    headline: "A calmer start to remodeling.",
+    headline: "The form and function of remodeling has changed.",
     supporting:
       "Take the Fell & Co. design profile to identify your style direction and the clearest next step for your kitchen or bath remodel.",
     primaryCta: { label: "Begin the Quiz", href: "/start" },

@@ -41,8 +41,7 @@ const Header = ({ brand, hero }) =>
 const Hero = ({ hero }) =>
   h(Container, { className: "pt-16 pb-12 text-center sm:pt-24 sm:pb-16" }, [
     h("div", { className: "mx-auto max-w-[980px]" }, [
-      h("p", { className: "font-sansQuiet text-[11px] uppercase tracking-[0.22em] text-smoke" }, "Fell & Co. Design Profile"),
-      h("h1", { className: "mt-5 font-serifDisplay text-[3.3rem] leading-[0.95] tracking-[-0.04em] text-ink sm:text-[5.4rem] lg:text-[7rem]" }, hero.headline),
+      h("h1", { className: "font-serifDisplay text-[2.5rem] leading-[1] tracking-[-0.035em] text-ink sm:text-[3.8rem] lg:text-[4.8rem]" }, hero.headline),
       h("p", { className: "mx-auto mt-6 max-w-[720px] font-sansQuiet text-[1rem] leading-8 text-smoke sm:text-[1.18rem]" }, hero.supporting),
       h("div", { className: "mt-10 flex justify-center" }, [
         h("a", {
