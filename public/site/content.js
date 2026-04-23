@@ -33,7 +33,7 @@ export const siteContent = {
     title: "Enduring design directions, thoughtfully distilled.",
     body:
       "Rather than beginning with endless options, Fell & Co. starts with a curated point of view.",
-    items: ["Classic Craftsman", "Natural Minimal", "Vintage Modern", "Traditional Contemporary", "Refined Rustic", "Coastal Quiet"]
+    items: ["Traditional", "Contemporary", "Modern", "Transitional", "Mid-Century", "Natural Minimal", "Coastal Calm", "Rustic", "Industrial Modern", "Classic Craftsman"]
   },
   sampleBox: {
     eyebrow: "Sample Box",

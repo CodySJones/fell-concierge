@@ -86,7 +86,7 @@ export const renderStartPage = () =>
               <h2 style="margin-bottom: 0;">What this covers</h2>
               <ul class="list calm-list">
                 <li>Your room type, timing, and overall readiness</li>
-                <li>The six Fell & Co. design profiles used in the studio</li>
+                <li>The ten Fell & Co. design profiles used in the studio</li>
                 <li>The clearest next step in the service path</li>
               </ul>
             </div>

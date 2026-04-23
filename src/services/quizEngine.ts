@@ -15,60 +15,60 @@ export const quizQuestions: QuizQuestion[] = [
     id: "mood",
     prompt: "Which bathroom mood feels most like home?",
     options: [
-      { value: "heritage", label: "Crafted, storied, and rooted in tradition", weights: { "Classic Craftsman": 4, "Traditional Contemporary": 2, "Refined Rustic": 2 } },
-      { value: "graphic", label: "Graphic, clever, and a little unexpected", weights: { "Vintage Modern": 4, "Traditional Contemporary": 1 } },
-      { value: "quiet", label: "Quiet, tonal, and deeply calming", weights: { "Natural Minimal": 4, "Coastal Quiet": 2, "Refined Rustic": 1 } },
-      { value: "tailored", label: "Tailored, polished, and timeless", weights: { "Traditional Contemporary": 4, "Classic Craftsman": 2, "Natural Minimal": 1 } }
+      { value: "classic", label: "Classic, collected, and rooted in tradition", weights: { Traditional: 4, Transitional: 2, "Classic Craftsman": 2 } },
+      { value: "clean", label: "Clean, current, and softly edited", weights: { Contemporary: 4, Modern: 2, "Natural Minimal": 1 } },
+      { value: "calm", label: "Quiet, airy, and deeply calming", weights: { "Natural Minimal": 4, "Coastal Calm": 3, Transitional: 1 } },
+      { value: "bold", label: "Graphic, expressive, and a little architectural", weights: { "Mid-Century": 3, "Industrial Modern": 3, Rustic: 1 } }
     ]
   },
   {
     id: "materials",
     prompt: "Which material direction are you drawn to?",
     options: [
-      { value: "artisan", label: "Handmade tile, oak, and warm brass", weights: { "Classic Craftsman": 4, "Refined Rustic": 2, "Traditional Contemporary": 1 } },
-      { value: "stone", label: "Soft stone, plaster, and clean-lined wood", weights: { "Natural Minimal": 4, "Traditional Contemporary": 1, "Refined Rustic": 1 } },
-      { value: "graphic", label: "Geometric tile, warm walnut, and edited contrast", weights: { "Vintage Modern": 4, "Traditional Contemporary": 1 } },
-      { value: "coastal", label: "White zellige, pale oak, and woven textures", weights: { "Coastal Quiet": 4, "Natural Minimal": 1 } }
+      { value: "tailored", label: "Painted millwork, marble, and polished metal", weights: { Traditional: 4, Transitional: 2, Contemporary: 1 } },
+      { value: "walnut", label: "Walnut, graphic tile, and warm contrast", weights: { "Mid-Century": 4, Modern: 1, "Industrial Modern": 1 } },
+      { value: "organic", label: "Plaster, pale wood, and tactile stone", weights: { "Natural Minimal": 4, Rustic: 2, "Coastal Calm": 1 } },
+      { value: "structural", label: "Steel, concrete, oak, and darker finishes", weights: { "Industrial Modern": 4, Modern: 2, Rustic: 1 } }
     ]
   },
   {
     id: "silhouette",
     prompt: "What fixture silhouette feels right?",
     options: [
-      { value: "bridge", label: "Bridge and cross-handle details", weights: { "Classic Craftsman": 3, "Traditional Contemporary": 2 } },
-      { value: "streamlined", label: "Streamlined with subtle sculptural edges", weights: { "Natural Minimal": 3, "Vintage Modern": 2, "Coastal Quiet": 1 } },
-      { value: "architectural", label: "Architectural, substantial, and quietly modern", weights: { "Refined Rustic": 3, "Natural Minimal": 1, "Traditional Contemporary": 1 } },
-      { value: "coastal", label: "Relaxed polish with soft traditional references", weights: { "Coastal Quiet": 3, "Traditional Contemporary": 1, "Classic Craftsman": 1 } }
+      { value: "ornate", label: "Bridge, cross-handle, or more decorative details", weights: { Traditional: 3, "Classic Craftsman": 3, Transitional: 1 } },
+      { value: "tailored", label: "Tailored and timeless, but not too formal", weights: { Transitional: 4, Contemporary: 2, "Coastal Calm": 1 } },
+      { value: "minimal", label: "Streamlined, sculptural, and quietly modern", weights: { Modern: 4, "Natural Minimal": 2, Contemporary: 1 } },
+      { value: "graphic", label: "Distinctive, retro, or industrial with personality", weights: { "Mid-Century": 3, "Industrial Modern": 3, Rustic: 1 } }
     ]
   },
   {
     id: "palette",
     prompt: "Choose a palette family.",
     options: [
-      { value: "earth", label: "Moss, cognac, cream, and clay", weights: { "Classic Craftsman": 3, "Refined Rustic": 3 } },
-      { value: "ink", label: "Olive, walnut, putty, and ink", weights: { "Vintage Modern": 4, "Traditional Contemporary": 1 } },
-      { value: "sand", label: "Sand, chalk, and quiet gray oak", weights: { "Natural Minimal": 4, "Coastal Quiet": 1 } },
-      { value: "mist", label: "Salt white, driftwood, and mist blue", weights: { "Coastal Quiet": 4, "Traditional Contemporary": 1 } }
+      { value: "soft-classic", label: "Ivory, mushroom, taupe, and gentle contrast", weights: { Traditional: 3, Transitional: 3, Contemporary: 1 } },
+      { value: "earth", label: "Moss, cognac, clay, and aged brass", weights: { "Classic Craftsman": 3, Rustic: 3, "Mid-Century": 1 } },
+      { value: "minimal", label: "Chalk, sand, pale oak, and quiet stone", weights: { "Natural Minimal": 4, Contemporary: 2, "Coastal Calm": 1 } },
+      { value: "moody", label: "Ink, charcoal, walnut, and blackened metals", weights: { Modern: 3, "Industrial Modern": 3, "Mid-Century": 1 } }
     ]
   },
   {
     id: "personality",
     prompt: "How adventurous should the space feel?",
     options: [
-      { value: "measured", label: "Measured and elegant", weights: { "Traditional Contemporary": 3, "Natural Minimal": 2 } },
-      { value: "warm", label: "Warm with visible craftsmanship", weights: { "Classic Craftsman": 3, "Refined Rustic": 3 } },
-      { value: "bold", label: "Bold with color or pattern moments", weights: { "Vintage Modern": 4, "Refined Rustic": 1, "Traditional Contemporary": 1 } },
-      { value: "airy", label: "Airy and softly layered", weights: { "Coastal Quiet": 3, "Natural Minimal": 1 } }
+      { value: "reserved", label: "Reserved, elegant, and quietly tailored", weights: { Traditional: 2, Transitional: 3, Contemporary: 2 } },
+      { value: "warm", label: "Warm, human, and visibly crafted", weights: { Rustic: 3, "Classic Craftsman": 3, "Coastal Calm": 1 } },
+      { value: "graphic", label: "Distinctive and visually strong", weights: { Modern: 2, "Mid-Century": 3, "Industrial Modern": 3 } },
+      { value: "soft", label: "Soft, easy, and low-drama", weights: { "Natural Minimal": 3, "Coastal Calm": 3, Transitional: 1 } }
     ]
   },
   {
     id: "priority",
     prompt: "What matters most in the finished room?",
     options: [
-      { value: "craft", label: "Craft details and long-term character", weights: { "Classic Craftsman": 4, "Traditional Contemporary": 1 } },
-      { value: "clarity", label: "Calm, clarity, and edited restraint", weights: { "Natural Minimal": 4, "Coastal Quiet": 1 } },
-      { value: "impact", label: "Distinct personality and visual impact", weights: { "Vintage Modern": 3, "Traditional Contemporary": 2, "Refined Rustic": 1 } },
-      { value: "comfort", label: "Comfortable polish and softness", weights: { "Coastal Quiet": 3, "Refined Rustic": 2 } }
+      { value: "timeless", label: "A timeless room that will age gracefully", weights: { Traditional: 3, Transitional: 3, "Classic Craftsman": 2 } },
+      { value: "clarity", label: "Calm, clarity, and edited restraint", weights: { "Natural Minimal": 4, Modern: 2, Contemporary: 1 } },
+      { value: "character", label: "Character, texture, and lived-in warmth", weights: { Rustic: 3, "Classic Craftsman": 3, "Coastal Calm": 1 } },
+      { value: "presence", label: "Distinct style and a strong visual point of view", weights: { "Mid-Century": 3, "Industrial Modern": 3, Contemporary: 1 } }
     ]
   }
 ];
@@ -95,7 +95,7 @@ export const scoreQuiz = (submission: QuizSubmission) => {
   const [primary, secondary] = ranked;
 
   return {
-    primaryProfile: (primary?.[0] ?? "Natural Minimal") as DesignProfileName,
+    primaryProfile: (primary?.[0] ?? "Transitional") as DesignProfileName,
     primaryConfidence: Number(((primary?.[1] ?? 1) / total).toFixed(2)),
     secondaryProfile: (secondary?.[0] ?? null) as DesignProfileName | null,
     secondaryConfidence: secondary ? Number((secondary[1] / total).toFixed(2)) : null,

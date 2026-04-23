@@ -77,25 +77,25 @@ export const initialState = (): AppState => ({
       client_id: "client_demo_alex",
       primary_profile: "Classic Craftsman",
       primary_confidence: 0.64,
-      secondary_profile: "Refined Rustic",
+      secondary_profile: "Traditional",
       secondary_confidence: 0.22,
       rationale: "Warm wood tones, heritage detailing, and an artisanal finish direction point strongly toward Classic Craftsman."
     },
     {
       id: "dpr_demo_jordan",
       client_id: "client_demo_jordan",
-      primary_profile: "Vintage Modern",
+      primary_profile: "Mid-Century",
       primary_confidence: 0.52,
-      secondary_profile: "Traditional Contemporary",
+      secondary_profile: "Contemporary",
       secondary_confidence: 0.27,
-      rationale: "The quiz response favored graphic tile, edited contrast, and a more expressive but still structured finish direction."
+      rationale: "The quiz response favored walnut warmth, graphic contrast, and a more expressive retro-informed finish direction."
     },
     {
       id: "dpr_demo_casey",
       client_id: "client_demo_casey",
       primary_profile: "Natural Minimal",
       primary_confidence: 0.7,
-      secondary_profile: "Traditional Contemporary",
+      secondary_profile: "Contemporary",
       secondary_confidence: 0.16,
       rationale: "Low-contrast materials, architectural calm, and tactile finishes all support Natural Minimal."
     }

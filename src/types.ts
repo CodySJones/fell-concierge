@@ -37,12 +37,16 @@ export const PRODUCT_TYPES = [
 ] as const;
 
 export const DESIGN_PROFILES = [
-  "Classic Craftsman",
-  "Vintage Modern",
+  "Traditional",
+  "Contemporary",
+  "Modern",
+  "Transitional",
+  "Mid-Century",
   "Natural Minimal",
-  "Traditional Contemporary",
-  "Refined Rustic",
-  "Coastal Quiet"
+  "Coastal Calm",
+  "Rustic",
+  "Industrial Modern",
+  "Classic Craftsman",
 ] as const;
 
 export type ClientState = (typeof CLIENT_STATES)[number];
