@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: fell-concierge
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.0.0
+      - key: BASE_URL
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: STORAGE_ROOT
+        value: /var/data/fell-concierge
+      - key: EMAIL_PROVIDER
+        value: log
+      - key: PAYMENT_PROVIDER
+        value: mock
+      - key: TYPEFORM_FORM_ID
+        value: 01KPW0ZJQHA1W2WQATT9DVHRBK
+      - key: TYPEFORM_API_TOKEN
+        sync: false
+      - key: TYPEFORM_WEBHOOK_SECRET
+        sync: false
+      - key: TYPEFORM_WEBHOOK_TAG
+        value: fell-concierge
+    disk:
+      name: fell-concierge-storage
+      mountPath: /var/data/fell-concierge
+      sizeGB: 1

@@ -1,0 +1,12 @@
+{
+  "name": "fell-concierge-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "MVP web application for Fell & Co's productized interior design funnel.",
+  "scripts": {
+    "start": "node src/server.ts",
+    "dev": "node --watch src/server.ts",
+    "test": "node src/tests/verify.ts"
+  }
+}

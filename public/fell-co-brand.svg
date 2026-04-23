@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900" role="img" aria-labelledby="title desc">
+  <title id="title">Fell &amp; Co.</title>
+  <desc id="desc">Fell and Co. Redesigning Remodeling</desc>
+  <rect width="900" height="900" fill="#f2ece3"/>
+  <g fill="#171412">
+    <text x="450" y="430" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="118" letter-spacing="-1.5">
+      Fell &amp; Co.
+    </text>
+    <text x="450" y="515" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" letter-spacing="7.5">
+      REDESIGNING REMODELING
+    </text>
+  </g>
+</svg>

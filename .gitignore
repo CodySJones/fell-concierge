@@ -1,0 +1,10 @@
+data/runtime-db.json
+data/fell-concierge.db
+node_modules
+runtime/
+uploads/
+server.out.log
+server.err.log
+.env
+github-upload/
+*.zip
