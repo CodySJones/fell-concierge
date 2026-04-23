@@ -135,6 +135,7 @@ export const appStyles = `
   }
   .stack { display: grid; gap: 12px; }
   .stack.sm { gap: 8px; }
+  .stack.lg { gap: 18px; }
   .metrics {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -248,11 +249,20 @@ export const appStyles = `
     color: var(--muted);
     font-size: 14px;
   }
+  .text-link {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(31, 26, 22, 0.22);
+    width: fit-content;
+  }
   .list {
     margin: 0;
     padding-left: 18px;
     display: grid;
     gap: 6px;
+  }
+  .calm-list li::marker {
+    color: rgba(165,101,63,0.8);
   }
   .split {
     display: grid;
@@ -393,11 +403,60 @@ export const appStyles = `
     border: 1px solid var(--line);
     box-shadow: var(--shadow-soft);
   }
+  .start-hero {
+    gap: 28px;
+    padding: 46px 48px;
+  }
+  .start-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: 28px;
+    align-items: end;
+  }
+  .start-note {
+    align-self: stretch;
+    background: rgba(255, 252, 247, 0.88);
+  }
+  .start-prep {
+    align-items: stretch;
+  }
+  .quiz-shell {
+    padding: 20px;
+    border-radius: 30px;
+    background:
+      linear-gradient(180deg, rgba(255,251,246,0.98), rgba(246,238,228,0.94)),
+      radial-gradient(circle at top right, rgba(165,101,63,0.08), transparent 28%);
+  }
+  .quiz-shell-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 18px;
+    padding: 8px 6px 18px;
+  }
+  .quiz-frame {
+    border-radius: 30px;
+    padding: 14px;
+    background: rgba(255, 249, 242, 0.94);
+    border: 1px solid rgba(84, 63, 45, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+  .sync-status {
+    min-height: 22px;
+    padding: 14px 8px 2px;
+  }
   @media (max-width: 900px) {
     .grid.two, .grid.three, .grid.four, .metrics, .split, .hero-grid {
       grid-template-columns: 1fr;
     }
     .hero { padding: 30px; }
+    .start-hero { padding: 32px 26px; }
+    .start-hero-grid { grid-template-columns: 1fr; }
+    .quiz-shell-head {
+      flex-direction: column;
+      align-items: start;
+      padding-inline: 2px;
+    }
     .nav { align-items: start; flex-direction: column; }
     .brand-logo {
       width: 140px;
