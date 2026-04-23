@@ -4,10 +4,10 @@ export const siteContent = {
     tagline: "Redesigning Remodeling."
   },
   hero: {
-    headline: "The form and function of remodeling has changed.",
+    headline: "A calmer start to remodeling.",
     supporting:
-      "Curated, design-led kitchen and bath remodeling with a calmer process, clearer decisions, and more beautiful results.",
-    primaryCta: { label: "Begin Your Design Profile", href: "/start" },
+      "Take the Fell & Co. design profile to identify your style direction and the clearest next step for your kitchen or bath remodel.",
+    primaryCta: { label: "Begin the Quiz", href: "/start" },
     secondaryCta: { label: "How It Works", href: "#process" }
   },
   intro: {
@@ -30,9 +30,9 @@ export const siteContent = {
   },
   profiles: {
     eyebrow: "Design Profiles",
-    title: "Enduring design directions, thoughtfully distilled.",
+    title: "Ten clear style directions.",
     body:
-      "Rather than beginning with endless options, Fell & Co. starts with a curated point of view.",
+      "Rather than beginning with endless options, Fell & Co. starts with a defined point of view.",
     items: ["Traditional", "Contemporary", "Modern", "Transitional", "Mid-Century", "Natural Minimal", "Coastal Calm", "Rustic", "Industrial Modern", "Classic Craftsman"]
   },
   sampleBox: {
@@ -67,10 +67,10 @@ export const siteContent = {
       "For clients seeking a construction path, Fell & Co. can coordinate next steps with Armitage Interiors."
   },
   closing: {
-    title: "A calmer place to start.",
+    title: "Start with the design profile.",
     body:
-      "Begin with a design profile, receive a curated direction, and move forward through a remodeling process that feels considered from the outset.",
-    cta: { label: "Start Here", href: "/start" }
+      "Begin with a design profile, receive a curated direction, and continue through a remodel process that feels considered from the outset.",
+    cta: { label: "Begin the Quiz", href: "/start" }
   },
   notes: {
     spacing:
