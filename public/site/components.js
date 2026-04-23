@@ -153,9 +153,9 @@ export const HomePage = ({ content }) =>
     h("main", { key: "main" }, [
       h(Hero, { hero: content.hero, key: "hero" }),
       h(FeaturePanel, {
-        title: "A design-led first step for kitchen and bath remodels.",
-        body: "The design profile helps Fell & Co. understand where your project stands, how your style reads, and what the clearest next step should be.",
-        aside: "Calm, high-trust, and intentionally narrow in scope.",
+        title: "What the design profile does.",
+        body: "It helps Fell & Co. understand your style direction, your room, and the clearest next step for your remodel before any paid service begins.",
+        aside: "A short intake that turns broad preferences into a more useful starting point.",
         key: "panel"
       }),
       h(ProfileRibbon, { profiles: content.profiles, key: "profiles" }),
