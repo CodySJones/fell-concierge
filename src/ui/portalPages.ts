@@ -1,33 +1,38 @@
 import { designProfileMap } from "../data/designProfiles.ts";
 import { deriveReadinessFromUploads, getUploadsByType } from "../services/intakeUploads.ts";
+import { getAllowedCheckoutProducts } from "../services/payments.ts";
 import { describeEligibility } from "../services/recommendations.ts";
-import { getPaymentProviderLabel } from "../services/payments.ts";
 import { PRODUCT_LABELS } from "../services/pricing.ts";
 import { getMissingInfo } from "../services/workflow.ts";
-import type { ClientBundle } from "../types.ts";
+import type { ClientBundle, ProductType } from "../types.ts";
 import { layout, nav } from "./layout.ts";
 
-export const renderPortalPage = (bundle: ClientBundle, isAdmin = false) => {
+export const renderPortalPage = (bundle: ClientBundle) => {
   const primary = bundle.profileResult?.primary_profile ? designProfileMap.get(bundle.profileResult.primary_profile) : undefined;
   const eligibility = describeEligibility(bundle);
   const missingInfo = getMissingInfo(bundle);
-  const paymentProviderLabel = getPaymentProviderLabel();
   const readiness = deriveReadinessFromUploads(bundle);
   const scanUploads = getUploadsByType(bundle, "SCAN_FILE");
   const measurementUploads = getUploadsByType(bundle, "MEASUREMENTS_FILE");
+  const recommendedOffer = bundle.recommendation?.recommended_offer as ProductType | undefined;
+  const canStartCheckout =
+    Boolean(recommendedOffer) &&
+    getAllowedCheckoutProducts().includes(recommendedOffer) &&
+    Boolean(bundle.recommendation?.eligible) &&
+    recommendedOffer in PRODUCT_LABELS;
+  const nextActionLabel = canStartCheckout ? PRODUCT_LABELS[recommendedOffer as keyof typeof PRODUCT_LABELS] : "Continue with Fell & Co";
 
   return layout(
     "Client Portal",
     `
       ${nav([
         { href: "/", label: "Quiz" },
-        { href: `/result?id=${bundle.client.id}`, label: "Profile Result" },
-        { href: "/admin", label: isAdmin ? "Admin Dashboard" : "Admin Login" }
+        { href: `/result?id=${bundle.client.id}`, label: "Profile Result" }
       ])}
       <section class="hero">
         <div class="eyebrow">Client Portal</div>
         <h1>${bundle.client.name}</h1>
-        <p class="lede">${bundle.project?.room_type ?? "Bathroom project"} at ${bundle.client.project_address}. This portal tracks the fixed-scope funnel rather than unlimited ongoing design support.</p>
+        <p class="lede">${bundle.project?.room_type ?? "Bathroom project"} at ${bundle.client.project_address}. This page keeps your current design direction, readiness, and next step in one place.</p>
         <div class="pill-row">
           <span class="stage">${bundle.client.current_state}</span>
           <span class="pill">${primary?.name ?? "Profile pending"}</span>
@@ -36,6 +41,11 @@ export const renderPortalPage = (bundle: ClientBundle, isAdmin = false) => {
       </section>
       <section class="split" style="margin-top:18px;">
         <div class="stack">
+          <div class="card">
+            <h2>Current Direction</h2>
+            <p><strong>${primary?.name ?? "Profile pending"}</strong></p>
+            <p class="note">${bundle.profileResult?.rationale ?? "Your design profile will appear here once your intake is complete."}</p>
+          </div>
           <div class="card">
             <h2>Recommendation</h2>
             <p><strong>${bundle.recommendation?.recommended_offer && bundle.recommendation.recommended_offer in PRODUCT_LABELS ? PRODUCT_LABELS[bundle.recommendation.recommended_offer as keyof typeof PRODUCT_LABELS] : bundle.recommendation?.recommended_offer}</strong></p>
@@ -56,14 +66,18 @@ export const renderPortalPage = (bundle: ClientBundle, isAdmin = false) => {
             }
           </div>
           <div class="card">
-            <h2>Actions</h2>
-            <p class="note">Checkout provider: ${paymentProviderLabel}. Manual payment recording is now admin-only.</p>
+            <h2>Next Step</h2>
+            <p class="note">${
+              canStartCheckout
+                ? `The next structured step is ${nextActionLabel}.`
+                : "The next step depends on missing prerequisites or internal review."
+            }</p>
             <div class="toolbar">
-              <button type="button" id="buy-sample-box">Buy Sample Box</button>
-              <button type="button" id="buy-consult" class="secondary">Buy Consultation</button>
-              ${isAdmin ? `<button type="button" id="generate-box" class="ghost">Generate Sample Box Prep</button>` : ""}
-              ${isAdmin ? `<button type="button" id="generate-brief" class="ghost">Generate Consult Brief</button>` : ""}
-              ${isAdmin ? `<button type="button" id="manual-consult" class="ghost">Admin: Mark Consultation Paid</button>` : ""}
+              ${
+                canStartCheckout
+                  ? `<button type="button" id="start-next-step">${nextActionLabel}</button>`
+                  : `<a href="/start"><button type="button">Review Questionnaire</button></a>`
+              }
             </div>
             <div id="portal-status" class="note" style="margin-top:10px;"></div>
           </div>
@@ -82,27 +96,7 @@ export const renderPortalPage = (bundle: ClientBundle, isAdmin = false) => {
           <div class="card">
             <h2>Eligibility Panel</h2>
             <ul class="list">${eligibility.notes.map((item) => `<li>${item}</li>`).join("")}</ul>
-            <p class="note">The $800 full plans bundle only unlocks after the sample box and at least one qualifying paid design service.</p>
-          </div>
-          <div class="card">
-            <h2>Sample Box Items</h2>
-            ${
-              bundle.sampleBoxItems.length
-                ? `<ul class="list">${bundle.sampleBoxItems.map((item) => `<li><strong>${item.category}</strong>: ${item.vendor} - ${item.item_name}</li>`).join("")}</ul>`
-                : `<p class="note">No sample-box prep generated yet.</p>`
-            }
-          </div>
-          <div class="card">
-            <h2>Consult Brief</h2>
-            ${
-              bundle.consultBrief
-                ? `
-                    <p>${bundle.consultBrief.summary}</p>
-                    <h3 style="margin-top:14px;">Unresolved questions</h3>
-                    <ul class="list">${bundle.consultBrief.unresolved_questions.map((item) => `<li>${item}</li>`).join("")}</ul>
-                  `
-                : `<p class="note">No consult brief generated yet.</p>`
-            }
+            <p class="note">Full plans only unlock after the sample box and at least one qualifying paid design service.</p>
           </div>
           <div class="card">
             <h2>Uploaded Intake Files</h2>
@@ -118,7 +112,7 @@ export const renderPortalPage = (bundle: ClientBundle, isAdmin = false) => {
             }
           </div>
           <div class="card">
-            <h2>Purchases</h2>
+            <h2>Purchased Steps</h2>
             <ul class="list">
               ${bundle.purchases.length ? bundle.purchases.map((purchase) => `<li>${PRODUCT_LABELS[purchase.product_type]} - $${purchase.amount} - ${purchase.status}</li>`).join("") : "<li>No purchases yet.</li>"}
             </ul>
@@ -158,11 +152,7 @@ export const renderPortalPage = (bundle: ClientBundle, isAdmin = false) => {
           }
         };
 
-        document.getElementById("buy-sample-box").addEventListener("click", () => startCheckout("SAMPLE_BOX"));
-        document.getElementById("buy-consult").addEventListener("click", () => startCheckout("CONSULTATION_1_HOUR"));
-        document.getElementById("generate-box")?.addEventListener("click", () => post("/api/generate/sample-box", { clientId: "${bundle.client.id}" }));
-        document.getElementById("generate-brief")?.addEventListener("click", () => post("/api/generate/consult-brief", { clientId: "${bundle.client.id}" }));
-        document.getElementById("manual-consult")?.addEventListener("click", () => post("/api/purchase", { clientId: "${bundle.client.id}", productType: "CONSULTATION_1_HOUR" }));
+        document.getElementById("start-next-step")?.addEventListener("click", () => startCheckout("${canStartCheckout ? recommendedOffer : ""}"));
         const fileToBase64 = (file) => new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => resolve(String(reader.result).split(",")[1]);
