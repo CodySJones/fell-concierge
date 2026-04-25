@@ -1,8 +1,9 @@
 import { resetState } from "../data/runtimeStore.ts";
 import { authenticateAdmin, clearSessionCookie, createSessionCookie, isAdminAuthenticated, requireAdmin } from "../services/auth.ts";
-import { buildAdminBundles, buildAdminMetrics } from "../services/clientBundles.ts";
+import { buildAdminBundles, buildAdminMetrics } from "../core/app/clientBundles.ts";
 import { parseFormBody, send, sendJson } from "../lib/http.ts";
 import { renderAdminPage } from "../ui/adminPages.ts";
+import { renderAgentPage } from "../ui/agentPages.ts";
 import { renderAdminLoginPage } from "../ui/authPages.ts";
 import type { RouteHandler } from "./routeContext.ts";
 
@@ -49,6 +50,14 @@ export const handleAdminRoutes: RouteHandler = async ({ request, response, url, 
     }
     const bundles = buildAdminBundles(state);
     send(response, 200, renderAdminPage(state, bundles, buildAdminMetrics(state, bundles)));
+    return true;
+  }
+
+  if (request.method === "GET" && url.pathname === "/admin/agent") {
+    if (!requireAdmin(request, response)) {
+      return true;
+    }
+    send(response, 200, renderAgentPage(state, buildAdminBundles(state)));
     return true;
   }
 

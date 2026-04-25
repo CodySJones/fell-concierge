@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
-import type { AppState, ClientBundle, EmailDelivery, EmailTemplateType } from "../types.ts";
-import { renderEmailTemplate } from "./emailTemplates.ts";
+import type { AppState, ClientBundle, EmailDelivery, EmailTemplateType } from "../../types.ts";
+import { renderEmailTemplate } from "./templates.ts";
 
 const provider = process.env.EMAIL_PROVIDER ?? "log";
 const fromEmail = process.env.EMAIL_FROM ?? "hello@fell-co.com";

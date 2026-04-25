@@ -1,6 +1,6 @@
-import { deriveReadinessFromUploads } from "./intakeUploads.ts";
-import type { ClientBundle, ClientState, Purchase } from "../types.ts";
-import { hasPaidProduct, hasQualifyingPaidService, isFullPlansEligible } from "./pricing.ts";
+import { deriveReadinessFromUploads } from "../app/intakeUploads.ts";
+import type { ClientBundle, ClientState, Purchase } from "../../types.ts";
+import { hasPaidProduct, hasQualifyingPaidService, isFullPlansEligible } from "./serviceCatalog.ts";
 
 const hasPurchase = (purchases: Purchase[], productType: string) =>
   purchases.some((purchase) => purchase.product_type === productType && purchase.status === "PAID");

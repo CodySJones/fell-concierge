@@ -1,7 +1,7 @@
 import { saveState, getClientBundle } from "../data/runtimeStore.ts";
-import { saveUploadedFile } from "../services/intakeUploads.ts";
-import { createClientFromQuizSubmission, refreshBundle } from "../services/clientBundles.ts";
-import { fetchTypeformResponse, findClientIdByTypeformResponse, syncTypeformPayloadToClient, typeformFormId, verifyTypeformWebhookSignature, type TypeformWebhookPayload } from "../services/typeform.ts";
+import { saveUploadedFile } from "../core/app/intakeUploads.ts";
+import { createClientFromQuizSubmission, refreshBundle } from "../core/app/clientBundles.ts";
+import { fetchTypeformResponse, findClientIdByTypeformResponse, syncTypeformPayloadToClient, typeformFormId, verifyTypeformWebhookSignature, type TypeformWebhookPayload } from "../integrations/typeform/client.ts";
 import type { QuizSubmission } from "../types.ts";
 import { parseBody, parseRawBody, sendJson } from "../lib/http.ts";
 import type { RouteHandler } from "./routeContext.ts";

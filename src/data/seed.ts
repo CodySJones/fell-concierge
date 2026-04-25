@@ -1,4 +1,5 @@
 import { designProfiles } from "./designProfiles.ts";
+import { buildDefaultFallonSkills } from "../core/fallon/skills.ts";
 import type { AppState } from "../types.ts";
 
 const now = new Date().toISOString();
@@ -193,7 +194,20 @@ export const initialState = (): AppState => ({
     }
   ],
   emailDeliveries: [],
-  intakeUploads: []
+  intakeUploads: [],
+  agentSkills: buildDefaultFallonSkills(),
+  agentMemories: [],
+  agentRuns: [],
+  agentHeartbeats: [
+    {
+      id: "heartbeat_fallon_local_concierge",
+      agent_name: "Fallon Local Concierge",
+      status: "READY",
+      last_seen_at: now,
+      last_run_id: null,
+      last_error: null
+    }
+  ]
 });
 
 export const seedMetadata = {

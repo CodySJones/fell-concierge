@@ -1,7 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import type { AppState, QuizSubmission } from "../types.ts";
-import { quizQuestions } from "./quizEngine.ts";
-import { createClientFromQuizSubmission } from "./clientBundles.ts";
+import type { AppState, QuizSubmission } from "../../types.ts";
+import { quizQuestions } from "../../core/fallon/profileEngine.ts";
+import { createClientFromQuizSubmission } from "../../core/app/clientBundles.ts";
 
 const defaultTypeformFormId = "01KPW0ZJQHA1W2WQATT9DVHRBK";
 const typeformApiBaseUrl = process.env.TYPEFORM_API_BASE_URL ?? "https://api.typeform.com";

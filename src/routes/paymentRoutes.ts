@@ -1,9 +1,9 @@
 import { getClientBundle, saveState } from "../data/runtimeStore.ts";
 import { isAdminAuthenticated } from "../services/auth.ts";
-import { createCheckoutSession, decodePaymentToken, verifyStripeWebhook } from "../services/payments.ts";
-import { PRODUCT_LABELS } from "../services/pricing.ts";
+import { createCheckoutSession, decodePaymentToken, verifyStripeWebhook } from "../integrations/payments/checkout.ts";
+import { PRODUCT_LABELS } from "../core/fallon/serviceCatalog.ts";
 import { parseBody, parseFormBody, parseRawBody, send, sendJson } from "../lib/http.ts";
-import { recordPaidPurchase, refreshBundle, sendStageEmails } from "../services/clientBundles.ts";
+import { recordPaidPurchase, refreshBundle, sendStageEmails } from "../core/app/clientBundles.ts";
 import type { ProductType } from "../types.ts";
 import type { RouteHandler } from "./routeContext.ts";
 

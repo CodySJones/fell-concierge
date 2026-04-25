@@ -1,6 +1,6 @@
 import { createHmac } from "node:crypto";
-import type { ClientBundle, ProductType } from "../types.ts";
-import { PRODUCT_LABELS, PRICING, isFullPlansEligible } from "./pricing.ts";
+import type { ClientBundle, ProductType } from "../../types.ts";
+import { PRODUCT_LABELS, PRICING, isFullPlansEligible } from "../../core/fallon/serviceCatalog.ts";
 
 const baseUrl = process.env.BASE_URL ?? "http://localhost:3000";
 const paymentProvider = process.env.PAYMENT_PROVIDER ?? "mock";

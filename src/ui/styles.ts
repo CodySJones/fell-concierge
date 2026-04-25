@@ -1,14 +1,14 @@
 export const appStyles = `
   :root {
-    --bg: #f3eee6;
-    --paper: #fffaf3;
-    --paper-2: #f6efe5;
+    --bg: #f7f6f2;
+    --paper: #ffffff;
+    --paper-2: #f2f0eb;
     --ink: #1f1a16;
     --muted: #6d6359;
     --line: rgba(84, 63, 45, 0.16);
-    --accent: #a5653f;
-    --accent-2: #2f574d;
-    --accent-3: #d8b28a;
+    --accent: #7a5b45;
+    --accent-2: #315f56;
+    --accent-3: #b8a178;
     --admin-bg: #f7f7f4;
     --badge: rgba(255, 250, 243, 0.72);
     --shadow: 0 22px 54px rgba(43, 29, 17, 0.09);
@@ -21,15 +21,12 @@ export const appStyles = `
     margin: 0;
     color: var(--ink);
     font-family: Georgia, "Times New Roman", serif;
-    background:
-      radial-gradient(circle at top left, rgba(165,101,63,0.20), transparent 24%),
-      radial-gradient(circle at right 20%, rgba(47,87,77,0.08), transparent 20%),
-      linear-gradient(180deg, #f8f2ea 0%, #f2ebe2 100%);
+    background: var(--bg);
   }
   a { color: inherit; }
   button, input, textarea, select { font: inherit; }
   h1, h2, h3, h4, p { margin: 0; }
-  h1 { font-size: clamp(3rem, 7vw, 6rem); line-height: 0.92; letter-spacing: -0.04em; }
+  h1 { font-size: clamp(3rem, 7vw, 6rem); line-height: 0.94; letter-spacing: 0; }
   h2 { font-size: clamp(2rem, 3.8vw, 3.1rem); line-height: 1; margin-bottom: 16px; }
   h3 { font-size: 1.12rem; margin-bottom: 10px; }
   p, li, label { font-size: 16px; line-height: 1.6; }
@@ -44,24 +41,11 @@ export const appStyles = `
     overflow: hidden;
     padding: 54px;
     border: 1px solid rgba(80, 60, 40, 0.12);
-    background:
-      linear-gradient(135deg, rgba(255,251,245,0.96), rgba(244,232,218,0.9)),
-      radial-gradient(circle at top right, rgba(165,101,63,0.12), transparent 30%);
+    background: var(--paper);
     box-shadow: var(--shadow);
-    border-radius: 34px;
+    border-radius: 12px;
     display: grid;
     gap: 20px;
-  }
-  .hero::after {
-    content: "";
-    position: absolute;
-    right: -40px;
-    bottom: -60px;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(216,178,138,0.26), transparent 64%);
-    pointer-events: none;
   }
   .hero-grid {
     display: grid;
@@ -71,7 +55,7 @@ export const appStyles = `
   }
   .hero-panel {
     border: 1px solid var(--line);
-    border-radius: 24px;
+    border-radius: 8px;
     background: rgba(255, 252, 247, 0.76);
     backdrop-filter: blur(6px);
     padding: 22px;
@@ -83,12 +67,12 @@ export const appStyles = `
     gap: 8px;
     width: fit-content;
     padding: 8px 12px;
-    border-radius: 999px;
+    border-radius: 8px;
     background: var(--badge);
     border: 1px solid rgba(84, 63, 45, 0.08);
     color: var(--muted);
     font-size: 12px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0;
     text-transform: uppercase;
   }
   .lede {
@@ -113,7 +97,7 @@ export const appStyles = `
   .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .card {
-    border-radius: 24px;
+    border-radius: 8px;
     background: var(--paper);
     border: 1px solid var(--line);
     box-shadow: var(--shadow);
@@ -144,7 +128,7 @@ export const appStyles = `
   .metric {
     background: white;
     border: 1px solid var(--line);
-    border-radius: 18px;
+    border-radius: 8px;
     padding: 18px;
   }
   .metric strong {
@@ -152,6 +136,17 @@ export const appStyles = `
     font-size: 2rem;
     line-height: 1;
     margin-top: 10px;
+  }
+  .code-block {
+    overflow: auto;
+    max-height: 520px;
+    padding: 14px;
+    border: 1px solid rgba(39, 34, 28, 0.14);
+    border-radius: 8px;
+    background: #111;
+    color: #f8f3ed;
+    font-size: 13px;
+    line-height: 1.5;
   }
   .statline {
     display: flex;
@@ -179,7 +174,7 @@ export const appStyles = `
   input, select, textarea, button {
     width: 100%;
     padding: 12px 14px;
-    border-radius: 14px;
+    border-radius: 8px;
     border: 1px solid #cdbba8;
     background: white;
     color: var(--ink);
@@ -209,7 +204,7 @@ export const appStyles = `
   }
   .option {
     border: 1px solid var(--line);
-    border-radius: 18px;
+    border-radius: 8px;
     padding: 14px;
     display: grid;
     gap: 8px;
@@ -222,7 +217,7 @@ export const appStyles = `
   }
   .pill, .chip {
     padding: 7px 10px;
-    border-radius: 999px;
+    border-radius: 8px;
     background: #f3ebe3;
     color: #5c5147;
     font-size: 14px;
@@ -240,7 +235,7 @@ export const appStyles = `
   .stage {
     display: inline-flex;
     padding: 6px 10px;
-    border-radius: 999px;
+    border-radius: 8px;
     background: #efe5d9;
     color: #634d39;
     font-size: 13px;
@@ -276,7 +271,7 @@ export const appStyles = `
   }
   .alert {
     padding: 14px 16px;
-    border-radius: 16px;
+    border-radius: 8px;
     border: 1px solid #dcc4b3;
     background: #fff5ee;
   }
@@ -313,13 +308,13 @@ export const appStyles = `
   }
   .brand-mark {
     font-size: 15px;
-    letter-spacing: 0.12em;
+    letter-spacing: 0;
     text-transform: uppercase;
   }
   .brand-sub {
     font-size: 12px;
     color: var(--muted);
-    letter-spacing: 0.08em;
+    letter-spacing: 0;
     text-transform: uppercase;
   }
   .nav a {
@@ -334,7 +329,7 @@ export const appStyles = `
   }
   .nav-cta {
     padding: 10px 14px;
-    border-radius: 999px;
+    border-radius: 8px;
     background: var(--ink);
     color: #fff !important;
   }
@@ -378,7 +373,7 @@ export const appStyles = `
     padding: 18px;
     border-left: 3px solid var(--accent);
     background: rgba(165,101,63,0.06);
-    border-radius: 0 18px 18px 0;
+    border-radius: 0 8px 8px 0;
   }
   .footer {
     margin-top: 22px;
@@ -398,7 +393,7 @@ export const appStyles = `
   }
   .hero-brand-frame {
     padding: 18px;
-    border-radius: 28px;
+    border-radius: 8px;
     background: rgba(255, 252, 247, 0.82);
     border: 1px solid var(--line);
     box-shadow: var(--shadow-soft);
@@ -422,10 +417,8 @@ export const appStyles = `
   }
   .quiz-shell {
     padding: 20px;
-    border-radius: 30px;
-    background:
-      linear-gradient(180deg, rgba(255,251,246,0.98), rgba(246,238,228,0.94)),
-      radial-gradient(circle at top right, rgba(165,101,63,0.08), transparent 28%);
+    border-radius: 8px;
+    background: var(--paper);
   }
   .quiz-shell-head {
     display: flex;
@@ -435,7 +428,7 @@ export const appStyles = `
     padding: 8px 6px 18px;
   }
   .quiz-frame {
-    border-radius: 30px;
+    border-radius: 8px;
     padding: 14px;
     background: rgba(255, 249, 242, 0.94);
     border: 1px solid rgba(84, 63, 45, 0.12);

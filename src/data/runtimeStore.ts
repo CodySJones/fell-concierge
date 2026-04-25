@@ -16,7 +16,10 @@ const jsonColumns = new Set([
   "style_cues",
   "approved_vendors",
   "palette_material_direction",
-  "avoid_notes"
+  "avoid_notes",
+  "triggers",
+  "guardrails",
+  "briefing"
 ]);
 
 const ensureDataDir = () => {
@@ -145,6 +148,42 @@ const openDb = () => {
       password_hash TEXT NOT NULL,
       created_at TEXT NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS agent_skills (
+      id TEXT PRIMARY KEY,
+      code TEXT NOT NULL UNIQUE,
+      name TEXT NOT NULL,
+      description TEXT NOT NULL,
+      triggers TEXT NOT NULL,
+      guardrails TEXT NOT NULL,
+      active INTEGER NOT NULL,
+      created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS agent_memories (
+      id TEXT PRIMARY KEY,
+      client_id TEXT NOT NULL,
+      category TEXT NOT NULL,
+      content TEXT NOT NULL,
+      source_run_id TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS agent_runs (
+      id TEXT PRIMARY KEY,
+      agent_name TEXT NOT NULL,
+      client_id TEXT NOT NULL,
+      status TEXT NOT NULL,
+      briefing TEXT NOT NULL,
+      error_message TEXT,
+      started_at TEXT NOT NULL,
+      completed_at TEXT
+    );
+    CREATE TABLE IF NOT EXISTS agent_heartbeats (
+      id TEXT PRIMARY KEY,
+      agent_name TEXT NOT NULL,
+      status TEXT NOT NULL,
+      last_seen_at TEXT NOT NULL,
+      last_run_id TEXT,
+      last_error TEXT
+    );
   `);
   return db;
 };
@@ -163,6 +202,10 @@ const clearAppTables = (db: DatabaseSync) => {
     DELETE FROM email_deliveries;
     DELETE FROM intake_uploads;
     DELETE FROM design_profiles;
+    DELETE FROM agent_skills;
+    DELETE FROM agent_memories;
+    DELETE FROM agent_runs;
+    DELETE FROM agent_heartbeats;
   `);
 };
 
@@ -197,7 +240,7 @@ const hydrateRows = <T>(rows: Record<string, unknown>[]): T[] =>
       if (jsonColumns.has(key) && typeof value === "string") {
         hydrated[key] = JSON.parse(value);
       }
-      if (key === "eligible") {
+      if (key === "eligible" || key === "active") {
         hydrated[key] = Boolean(value);
       }
     }
@@ -237,6 +280,17 @@ const writeState = (db: DatabaseSync, state: AppState) => {
     );
     insertRows(db, "email_deliveries", state.emailDeliveries);
     insertRows(db, "intake_uploads", state.intakeUploads);
+    insertRows(
+      db,
+      "agent_skills",
+      (state.agentSkills ?? []).map((skill) => ({
+        ...skill,
+        active: skill.active ? 1 : 0
+      }))
+    );
+    insertRows(db, "agent_memories", state.agentMemories ?? []);
+    insertRows(db, "agent_runs", state.agentRuns ?? []);
+    insertRows(db, "agent_heartbeats", state.agentHeartbeats ?? []);
     seedDesignProfiles(db);
     db.exec("COMMIT");
   } catch (error) {
@@ -285,7 +339,11 @@ export const loadState = (): AppState => {
       consultBriefs: hydrateRows(db.prepare("SELECT * FROM consult_briefs").all() as Record<string, unknown>[]),
       offerRecommendations: hydrateRows(db.prepare("SELECT * FROM offer_recommendations").all() as Record<string, unknown>[]),
       emailDeliveries: hydrateRows(db.prepare("SELECT * FROM email_deliveries").all() as Record<string, unknown>[]),
-      intakeUploads: hydrateRows(db.prepare("SELECT * FROM intake_uploads").all() as Record<string, unknown>[])
+      intakeUploads: hydrateRows(db.prepare("SELECT * FROM intake_uploads").all() as Record<string, unknown>[]),
+      agentSkills: hydrateRows(db.prepare("SELECT * FROM agent_skills").all() as Record<string, unknown>[]),
+      agentMemories: hydrateRows(db.prepare("SELECT * FROM agent_memories").all() as Record<string, unknown>[]),
+      agentRuns: hydrateRows(db.prepare("SELECT * FROM agent_runs").all() as Record<string, unknown>[]),
+      agentHeartbeats: hydrateRows(db.prepare("SELECT * FROM agent_heartbeats").all() as Record<string, unknown>[])
     };
   } finally {
     db.close();

@@ -1,6 +1,5 @@
 import { designProfileMap } from "../data/designProfiles.ts";
-import { getPaymentProviderLabel } from "../services/payments.ts";
-import { PRODUCT_LABELS } from "../services/pricing.ts";
+import { PRODUCT_LABELS } from "../core/fallon/serviceCatalog.ts";
 import type { ClientBundle } from "../types.ts";
 import { footer, layout, nav } from "./layout.ts";
 
@@ -33,7 +32,7 @@ export const renderHomePage = () => `<!doctype html>
               quiet: "0 18px 40px rgba(36, 26, 18, 0.05)"
             },
             letterSpacing: {
-              calm: "0.18em"
+              calm: "0"
             }
           }
         }
@@ -60,44 +59,13 @@ export const renderStartPage = () =>
       ])}
       <section class="hero start-hero">
         <div class="eyebrow">Design Profile</div>
-        <div class="start-hero-grid">
-          <div class="stack lg">
-            <h1>A quieter way to begin a remodel.</h1>
-            <p class="lede">This short profile helps Fell & Co. understand your room, your priorities, and the design direction that fits best before any paid step begins.</p>
-            <div class="pill-row">
-              <span class="pill">About 3 minutes</span>
-              <span class="pill">Kitchen + bath focused</span>
-              <span class="pill">Structured next step</span>
-            </div>
-          </div>
-          <div class="hero-panel start-note">
-            <span class="badge">Before you begin</span>
-            <div class="stack sm">
-              <p>Fell & Co. is a structured, design-led studio. This profile is meant to guide the right next paid step, not open-ended free design support.</p>
-              <p class="note">You will receive directional guidance, not final construction detail.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="section">
-        <div class="grid two start-prep">
-          <div class="card soft">
-            <div class="stack">
-              <h2 style="margin-bottom: 0;">What this covers</h2>
-              <ul class="list calm-list">
-                <li>Your room type, timing, and overall readiness</li>
-                <li>The ten Fell & Co. design profiles used in the studio</li>
-                <li>The clearest next step in the service path</li>
-              </ul>
-            </div>
-          </div>
-          <div class="card soft">
-            <div class="stack">
-              <h2 style="margin-bottom: 0;">Current design profiles</h2>
-              <div class="pill-row">
-                ${Array.from(designProfileMap.values()).map((profile) => `<span class="pill">${profile.name}</span>`).join("")}
-              </div>
-            </div>
+        <div class="stack lg">
+          <h1>A focused start for your remodel.</h1>
+          <p class="lede">Answer a short set of questions about your room, taste, timing, and readiness. Fell & Co. will return a design profile and the clearest next step.</p>
+          <div class="pill-row">
+            <span class="pill">About 3 minutes</span>
+            <span class="pill">Kitchen + bath focused</span>
+            <span class="pill">Directional guidance</span>
           </div>
         </div>
       </section>
@@ -105,9 +73,8 @@ export const renderStartPage = () =>
         <div class="card quiz-shell">
           <div class="quiz-shell-head">
             <div class="stack sm">
-              <div class="eyebrow">Start the Quiz</div>
+              <div class="eyebrow">Quiz</div>
               <h2 style="margin-bottom: 0;">Design Profile Intake</h2>
-              <p class="note">Answer a few questions and we’ll prepare your design profile result and recommended next step.</p>
             </div>
             <a class="text-link" href="https://form.typeform.com/to/${typeformEmbedId}" target="_blank" rel="noreferrer">Open in a new tab</a>
           </div>
@@ -167,8 +134,6 @@ export const renderStartPage = () =>
 export const renderResultPage = (bundle: ClientBundle) => {
   const primary = bundle.profileResult?.primary_profile ? designProfileMap.get(bundle.profileResult.primary_profile) : undefined;
   const secondary = bundle.profileResult?.secondary_profile ? designProfileMap.get(bundle.profileResult.secondary_profile) : undefined;
-  const paymentProviderLabel = getPaymentProviderLabel();
-
   return layout(
     "Your Fell & Co Design Profile",
     `
@@ -196,7 +161,7 @@ export const renderResultPage = (bundle: ClientBundle) => {
           <div class="hero-panel stack">
             <span class="badge">What happens next</span>
             <h3>Continue with Fell & Co through the client portal.</h3>
-            <p class="note">Your profile is the start, not the whole project. The portal shows your recommended next paid step, tracks readiness, and gives you a clear path forward.</p>
+            <p class="note">Your profile is the starting point. The portal keeps the next step and project readiness in one place.</p>
             <a href="/portal?id=${bundle.client.id}"><button type="button" class="accent">Open My Portal</button></a>
           </div>
         </div>
@@ -212,12 +177,8 @@ export const renderResultPage = (bundle: ClientBundle) => {
             <div class="pill-row">${(primary?.style_cues ?? []).map((cue) => `<span class="pill">${cue}</span>`).join("")}</div>
           </div>
           <div>
-            <h3>Palette and material direction</h3>
+            <h3>Material direction</h3>
             <div class="pill-row">${(primary?.palette_material_direction ?? []).map((cue) => `<span class="pill">${cue}</span>`).join("")}</div>
-          </div>
-          <div>
-            <h3>Avoid notes</h3>
-            <ul class="list">${(primary?.avoid_notes ?? []).map((note) => `<li>${note}</li>`).join("")}</ul>
           </div>
         </div>
         <div class="card stack">
@@ -225,20 +186,7 @@ export const renderResultPage = (bundle: ClientBundle) => {
             <h2>Recommended next step</h2>
             <p>${bundle.recommendation?.rationale ?? ""}</p>
           </div>
-          <div class="alert">
-            <strong>Important guardrail</strong>
-            <p class="note">This is directional guidance only. No exact dimensions, contractor-facing details, or final vendor commitments are implied yet.</p>
-          </div>
-          <div>
-            <h3>Suggested path from here</h3>
-            <ul class="list">
-              <li>Free Design Profile</li>
-              <li>Sample Box ($100)</li>
-              <li>1-Hour Consultation ($500)</li>
-              <li>Lock-In Render ($500) or with floor plan change ($750)</li>
-            </ul>
-          </div>
-          <p class="note">Checkout provider: ${paymentProviderLabel}. In mock mode, the app simulates payment confirmation for local demos.</p>
+          <p class="note">This is directional guidance. Exact dimensions, contractor-facing details, and final vendor commitments come later.</p>
           <div class="toolbar">
             <a href="/portal?id=${bundle.client.id}"><button type="button">Continue with Fell & Co</button></a>
             <button type="button" class="secondary" id="purchase-sample-box">Buy Sample Box Now</button>

@@ -30,111 +30,70 @@ const Header = ({ brand, hero }) =>
         })
       ]),
       h("a", {
-        href: hero.primaryCta.href,
+        href: hero.secondaryCta.href,
         key: "cta",
         className:
-          "inline-flex items-center justify-center rounded-full border border-line bg-paper px-4 py-2 font-sansQuiet text-[11px] uppercase tracking-calm text-ink transition hover:bg-[#f7f0e7]"
-      }, hero.primaryCta.label)
+          "inline-flex items-center justify-center rounded-[8px] border border-line bg-paper px-4 py-2 font-sansQuiet text-[11px] uppercase tracking-calm text-ink transition hover:bg-[#f7f0e7]"
+      }, hero.secondaryCta.label)
     ])
   ]);
 
 const Hero = ({ hero }) =>
-  h(Container, { className: "pt-16 pb-12 text-center sm:pt-24 sm:pb-16" }, [
-    h("div", { className: "mx-auto max-w-[980px]" }, [
-      h("h1", { className: "font-serifDisplay text-[2.5rem] leading-[1] tracking-[-0.035em] text-ink sm:text-[3.8rem] lg:text-[4.8rem]" }, hero.headline),
-      h("p", { className: "mx-auto mt-6 max-w-[720px] font-sansQuiet text-[1rem] leading-8 text-smoke sm:text-[1.18rem]" }, hero.supporting),
-      h("div", { className: "mt-10 flex justify-center" }, [
+  h(Container, { className: "pt-14 pb-10 text-center sm:pt-20 sm:pb-14" }, [
+    h("div", { className: "mx-auto max-w-[900px]" }, [
+      h("h1", { className: "font-serifDisplay text-[2.7rem] leading-[1] text-ink sm:text-[4rem] lg:text-[5rem]" }, hero.headline),
+      h("p", { className: "mx-auto mt-6 max-w-[680px] font-sansQuiet text-[1rem] leading-8 text-smoke sm:text-[1.16rem]" }, hero.supporting),
+      h("div", { className: "mt-9 flex justify-center" }, [
         h("a", {
           href: hero.primaryCta.href,
           className:
-            "inline-flex min-w-[220px] items-center justify-center rounded-full bg-ink px-7 py-3.5 font-sansQuiet text-[12px] uppercase tracking-calm text-bone transition hover:opacity-92"
+            "inline-flex min-w-[220px] items-center justify-center rounded-[8px] bg-ink px-7 py-3.5 font-sansQuiet text-[12px] uppercase tracking-calm text-bone transition hover:opacity-92"
         }, hero.primaryCta.label)
       ])
     ])
   ]);
 
-const FeaturePanel = ({ title, body, aside }) =>
-  h(Container, { wide: true, className: "pb-8 sm:pb-12" }, [
-    h("section", {
-      className:
-        "overflow-hidden rounded-[34px] border border-[#ded2c5] bg-paper shadow-[0_18px_48px_rgba(36,26,18,0.05)]"
-    }, [
-      h("div", { className: "grid lg:grid-cols-[1.08fr_0.92fr]" }, [
-        h("div", { className: "px-8 py-12 sm:px-14 sm:py-16 lg:px-16 lg:py-20" }, [
-          h("p", { className: "font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, "Start Here"),
-          h("h2", { className: "mt-4 max-w-[560px] font-serifDisplay text-[2.5rem] leading-[1.02] tracking-[-0.03em] text-ink sm:text-[4rem]" }, title),
-          h("p", { className: "mt-5 max-w-[560px] font-sansQuiet text-[1rem] leading-8 text-smoke sm:text-[1.08rem]" }, body),
-          h("div", { className: "mt-9 flex flex-wrap gap-3" }, [
-            h("span", { className: "rounded-full bg-[#f4ece2] px-4 py-2 font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, "About 3 minutes"),
-            h("span", { className: "rounded-full bg-[#f4ece2] px-4 py-2 font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, "10 design profiles"),
-            h("span", { className: "rounded-full bg-[#f4ece2] px-4 py-2 font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, "Clear next step")
-          ])
-        ]),
-        h("div", {
-          className:
-            "flex min-h-[280px] items-end border-t border-[#ded2c5] bg-[linear-gradient(180deg,#f6efe6_0%,#ece2d6_100%)] px-8 py-10 lg:min-h-full lg:border-l lg:border-t-0 lg:px-12 lg:py-14"
-        }, [
-          h("div", { className: "max-w-[420px]" }, [
-            h("p", { className: "font-serifDisplay text-[1.55rem] leading-[1.15] text-ink sm:text-[2rem]" }, aside),
-            h("p", { className: "mt-4 font-sansQuiet text-[0.98rem] leading-7 text-smoke" }, "The landing page does one job: move the right person into the quiz with as little friction as possible.")
-          ])
-        ])
-      ])
-    ])
-  ]);
-
 const QuizPath = ({ process, closing }) =>
-  h(Container, { className: "py-12 sm:py-16" }, [
-    h("section", { className: "text-center" }, [
+  h(Container, { className: "py-10 sm:py-14", wide: true }, [
+    h("section", { className: "text-center", id: "about" }, [
       h("p", { className: "font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, process.eyebrow),
-      h("h2", { className: "mt-4 font-serifDisplay text-[2.25rem] leading-[1.04] tracking-[-0.03em] text-ink sm:text-[3.8rem]" }, "One clear next move."),
-      h("p", { className: "mx-auto mt-5 max-w-[660px] font-sansQuiet text-[1rem] leading-8 text-smoke sm:text-[1.08rem]" }, "Take the design profile, receive a tailored direction, and continue only if the next step makes sense for your remodel.")
+      h("h2", { className: "mt-4 font-serifDisplay text-[2.25rem] leading-[1.04] text-ink sm:text-[3.6rem]" }, process.title)
     ]),
     h("div", {
       className:
-        "mx-auto mt-12 grid max-w-[940px] gap-px overflow-hidden rounded-[28px] border border-line bg-line sm:grid-cols-3"
-    }, [
-      h("div", { className: "bg-paper px-7 py-8 text-left" }, [
-        h("p", { className: "font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, "01"),
-        h("h3", { className: "mt-4 font-serifDisplay text-[1.7rem] leading-tight text-ink" }, process.steps[0].title),
-        h("p", { className: "mt-3 font-sansQuiet text-[0.98rem] leading-7 text-smoke" }, process.steps[0].body)
-      ]),
-      h("div", { className: "bg-paper px-7 py-8 text-left" }, [
-        h("p", { className: "font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, "02"),
-        h("h3", { className: "mt-4 font-serifDisplay text-[1.7rem] leading-tight text-ink" }, process.steps[1].title),
-        h("p", { className: "mt-3 font-sansQuiet text-[0.98rem] leading-7 text-smoke" }, process.steps[1].body)
-      ]),
-      h("div", { className: "bg-paper px-7 py-8 text-left" }, [
-        h("p", { className: "font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, "03"),
-        h("h3", { className: "mt-4 font-serifDisplay text-[1.7rem] leading-tight text-ink" }, closing.cta.label),
-        h("p", { className: "mt-3 font-sansQuiet text-[0.98rem] leading-7 text-smoke" }, closing.body)
+        "mx-auto mt-10 grid max-w-[980px] gap-px overflow-hidden rounded-[8px] border border-line bg-line sm:grid-cols-3"
+    }, process.steps.map((step, index) =>
+      h("div", { className: "bg-paper px-7 py-8 text-left", key: step.title }, [
+        h("p", { className: "font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, String(index + 1).padStart(2, "0")),
+        h("h3", { className: "mt-4 font-serifDisplay text-[1.7rem] leading-tight text-ink" }, step.title),
+        h("p", { className: "mt-3 font-sansQuiet text-[0.98rem] leading-7 text-smoke" }, step.body)
       ])
-    ])
+    ))
   ]);
 
 const ProfileRibbon = ({ profiles }) =>
-  h(Container, { className: "py-12 sm:py-16" }, [
+  h(Container, { className: "py-8 sm:py-10" }, [
     h("section", {
       className:
-        "rounded-[28px] border border-line bg-[#f5ede4] px-6 py-8 sm:px-10 sm:py-10"
+        "border-y border-line px-2 py-8"
     }, [
       h("p", { className: "text-center font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, profiles.eyebrow),
       h("div", {
         className:
-          "mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 font-serifDisplay text-[1.3rem] leading-tight text-ink sm:text-[1.6rem]"
+          "mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-3 font-serifDisplay text-[1.18rem] leading-tight text-ink sm:text-[1.45rem]"
       }, profiles.items.map((item) => h("span", { key: item }, item)))
     ])
   ]);
 
 const Closing = ({ closing }) =>
-  h(Container, { className: "py-16 text-center sm:py-24" }, [
-    h("h2", { className: "font-serifDisplay text-[2.3rem] leading-[1.03] tracking-[-0.03em] text-ink sm:text-[4rem]" }, closing.title),
-    h("p", { className: "mx-auto mt-5 max-w-[680px] font-sansQuiet text-[1rem] leading-8 text-smoke sm:text-[1.08rem]" }, "The quiz is the first step. Everything after that is structured, deliberate, and only introduced when it is useful."),
+  h(Container, { className: "py-12 text-center sm:py-20" }, [
+    h("h2", { className: "font-serifDisplay text-[2.3rem] leading-[1.03] text-ink sm:text-[4rem]" }, closing.title),
+    h("p", { className: "mx-auto mt-5 max-w-[640px] font-sansQuiet text-[1rem] leading-8 text-smoke sm:text-[1.08rem]" }, closing.body),
     h("div", { className: "mt-9 flex justify-center" }, [
       h("a", {
         href: closing.cta.href,
         className:
-          "inline-flex min-w-[220px] items-center justify-center rounded-full bg-ink px-7 py-3.5 font-sansQuiet text-[12px] uppercase tracking-calm text-bone transition hover:opacity-92"
+          "inline-flex min-w-[220px] items-center justify-center rounded-[8px] bg-ink px-7 py-3.5 font-sansQuiet text-[12px] uppercase tracking-calm text-bone transition hover:opacity-92"
       }, "Begin the Quiz")
     ])
   ]);
@@ -152,14 +111,8 @@ export const HomePage = ({ content }) =>
     h(Header, { brand: content.brand, hero: content.hero, key: "header" }),
     h("main", { key: "main" }, [
       h(Hero, { hero: content.hero, key: "hero" }),
-      h(FeaturePanel, {
-        title: "What the design profile does.",
-        body: "It helps Fell & Co. understand your style direction, your room, and the clearest next step for your remodel before any paid service begins.",
-        aside: "A short intake that turns broad preferences into a more useful starting point.",
-        key: "panel"
-      }),
-      h(ProfileRibbon, { profiles: content.profiles, key: "profiles" }),
       h(QuizPath, { process: content.process, closing: content.closing, key: "path" }),
+      h(ProfileRibbon, { profiles: content.profiles, key: "profiles" }),
       h(Closing, { closing: content.closing, key: "closing" })
     ]),
     h(Footer, { brand: content.brand, key: "footer" })

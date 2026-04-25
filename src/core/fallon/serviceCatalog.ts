@@ -1,4 +1,4 @@
-import type { ProductType, Purchase } from "../types.ts";
+import type { ProductType, Purchase } from "../../types.ts";
 
 export const PRICING: Record<ProductType, number | null> = {
   DESIGN_PROFILE: 0,
@@ -43,4 +43,3 @@ export const hasQualifyingPaidService = (purchases: Purchase[]): boolean =>
 
 export const isFullPlansEligible = (purchases: Purchase[]): boolean =>
   hasPaidProduct(purchases, "SAMPLE_BOX") && hasQualifyingPaidService(purchases);
-

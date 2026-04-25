@@ -4,11 +4,11 @@ export const siteContent = {
     tagline: "Redesigning Remodeling."
   },
   hero: {
-    headline: "The form and function of remodeling has changed.",
+    headline: "the form and function of remodeling has changed",
     supporting:
-      "Take the Fell & Co. design profile to identify your style direction and the clearest next step for your kitchen or bath remodel.",
+      "Begin with a short design profile. Fell & Co. turns your room, taste, timing, and readiness into one clear next step.",
     primaryCta: { label: "Begin the Quiz", href: "/start" },
-    secondaryCta: { label: "How It Works", href: "#process" }
+    secondaryCta: { label: "About Us", href: "#about" }
   },
   intro: {
     eyebrow: "Positioning",
@@ -18,14 +18,11 @@ export const siteContent = {
   },
   process: {
     eyebrow: "Process",
-    title: "A calmer sequence, quietly kept in order.",
+    title: "A simple path, kept in order.",
     steps: [
-      { title: "Discover", body: "Take the design profile and tell us about your space." },
-      { title: "Curate", body: "Receive a tailored direction and optional sample box." },
-      { title: "Scan", body: "Capture your room so the design can take shape." },
-      { title: "Refine", body: "Review finishes, layouts, and visual options." },
-      { title: "Lock In", body: "Finalize your rendering and selections." },
-      { title: "Move Forward", body: "Purchase documents, materials, or a bid comparison." }
+      { title: "Profile", body: "Share your room, style preferences, timing, and readiness." },
+      { title: "Sample", body: "Use a focused sample box to compare materials before larger commitments." },
+      { title: "Lock In", body: "Move into consultation, scan, render, and selections when the project is ready." }
     ]
   },
   profiles: {
@@ -37,9 +34,9 @@ export const siteContent = {
   },
   sampleBox: {
     eyebrow: "Sample Box",
-    title: "Abstract decisions become easier when materials are in hand.",
+    title: "Materials make the direction tangible.",
     body:
-      "The sample box turns design direction into something tangible. It helps clients compare texture, tone, and finish with less second-guessing."
+      "The sample box helps clients compare texture, tone, and finish with less second-guessing."
   },
   render: {
     eyebrow: "Lock-In Render",
@@ -69,7 +66,7 @@ export const siteContent = {
   closing: {
     title: "Start with the design profile.",
     body:
-      "Begin with a design profile, receive a curated direction, and continue through a remodel process that feels considered from the outset.",
+      "Receive a curated direction and continue only when the next step makes sense.",
     cta: { label: "Begin the Quiz", href: "/start" }
   },
   notes: {

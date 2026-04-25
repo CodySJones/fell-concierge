@@ -175,6 +175,49 @@ export interface IntakeUpload {
   note: string;
 }
 
+export type AgentRunStatus = "RUNNING" | "COMPLETED" | "FAILED";
+export type AgentHeartbeatStatus = "READY" | "RUNNING" | "ERROR";
+
+export interface AgentSkill {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+  triggers: string[];
+  guardrails: string[];
+  active: boolean;
+  created_at: string;
+}
+
+export interface AgentMemory {
+  id: string;
+  client_id: string;
+  category: "CLIENT_FACT" | "PROJECT_PREFERENCE" | "BUSINESS_CONTEXT" | "OPEN_LOOP";
+  content: string;
+  source_run_id: string;
+  created_at: string;
+}
+
+export interface AgentRun {
+  id: string;
+  agent_name: string;
+  client_id: string;
+  status: AgentRunStatus;
+  briefing: Record<string, unknown>;
+  error_message: string | null;
+  started_at: string;
+  completed_at: string | null;
+}
+
+export interface AgentHeartbeat {
+  id: string;
+  agent_name: string;
+  status: AgentHeartbeatStatus;
+  last_seen_at: string;
+  last_run_id: string | null;
+  last_error: string | null;
+}
+
 export interface DesignProfileSeed {
   name: DesignProfileName;
   description: string;
@@ -196,6 +239,10 @@ export interface AppState {
   offerRecommendations: OfferRecommendation[];
   emailDeliveries: EmailDelivery[];
   intakeUploads: IntakeUpload[];
+  agentSkills: AgentSkill[];
+  agentMemories: AgentMemory[];
+  agentRuns: AgentRun[];
+  agentHeartbeats: AgentHeartbeat[];
 }
 
 export interface AdminUser {

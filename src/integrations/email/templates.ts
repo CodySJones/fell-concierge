@@ -1,5 +1,5 @@
-import type { ClientBundle, EmailTemplateType } from "../types.ts";
-import { PRODUCT_LABELS } from "./pricing.ts";
+import type { ClientBundle, EmailTemplateType } from "../../types.ts";
+import { PRODUCT_LABELS } from "../../core/fallon/serviceCatalog.ts";
 
 export interface RenderedEmail {
   subject: string;

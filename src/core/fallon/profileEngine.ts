@@ -1,4 +1,4 @@
-import type { DesignProfileName, QuizSubmission } from "../types.ts";
+import type { DesignProfileName, QuizSubmission } from "../../types.ts";
 
 interface QuizQuestion {
   id: string;

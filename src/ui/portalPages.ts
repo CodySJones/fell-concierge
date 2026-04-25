@@ -1,9 +1,9 @@
 import { designProfileMap } from "../data/designProfiles.ts";
-import { deriveReadinessFromUploads, getUploadsByType } from "../services/intakeUploads.ts";
-import { getAllowedCheckoutProducts } from "../services/payments.ts";
-import { describeEligibility } from "../services/recommendations.ts";
-import { PRODUCT_LABELS } from "../services/pricing.ts";
-import { getMissingInfo } from "../services/workflow.ts";
+import { deriveReadinessFromUploads, getUploadsByType } from "../core/app/intakeUploads.ts";
+import { getAllowedCheckoutProducts } from "../integrations/payments/checkout.ts";
+import { describeEligibility } from "../core/fallon/recommendationEngine.ts";
+import { PRODUCT_LABELS } from "../core/fallon/serviceCatalog.ts";
+import { getMissingInfo } from "../core/fallon/clientState.ts";
 import type { ClientBundle, ProductType } from "../types.ts";
 import { layout, nav } from "./layout.ts";
 
@@ -41,18 +41,25 @@ export const renderPortalPage = (bundle: ClientBundle) => {
       </section>
       <section class="split" style="margin-top:18px;">
         <div class="stack">
+          <div class="card next-step-card">
+            <div class="toolbar" style="justify-content:space-between;align-items:start;">
+              <div>
+                <h2>Next Step</h2>
+                <p><strong>${canStartCheckout ? nextActionLabel : bundle.recommendation?.recommended_offer && bundle.recommendation.recommended_offer in PRODUCT_LABELS ? PRODUCT_LABELS[bundle.recommendation.recommended_offer as keyof typeof PRODUCT_LABELS] : "Internal review"}</strong></p>
+              </div>
+              ${
+                canStartCheckout
+                  ? `<button type="button" id="start-next-step">${nextActionLabel}</button>`
+                  : `<a href="/start"><button type="button">Review Questionnaire</button></a>`
+              }
+            </div>
+            <p class="note">${bundle.recommendation?.rationale ?? ""}</p>
+            <div id="portal-status" class="note" style="margin-top:10px;"></div>
+          </div>
           <div class="card">
-            <h2>Current Direction</h2>
+            <h2>Project Snapshot</h2>
             <p><strong>${primary?.name ?? "Profile pending"}</strong></p>
             <p class="note">${bundle.profileResult?.rationale ?? "Your design profile will appear here once your intake is complete."}</p>
-          </div>
-          <div class="card">
-            <h2>Recommendation</h2>
-            <p><strong>${bundle.recommendation?.recommended_offer && bundle.recommendation.recommended_offer in PRODUCT_LABELS ? PRODUCT_LABELS[bundle.recommendation.recommended_offer as keyof typeof PRODUCT_LABELS] : bundle.recommendation?.recommended_offer}</strong></p>
-            <p class="note">${bundle.recommendation?.rationale ?? ""}</p>
-          </div>
-          <div class="card">
-            <h2>Project Readiness</h2>
             <ul class="list">
               <li>Scan status: ${readiness.scanStatus}</li>
               <li>Measurements status: ${readiness.measurementsStatus}</li>
@@ -66,24 +73,7 @@ export const renderPortalPage = (bundle: ClientBundle) => {
             }
           </div>
           <div class="card">
-            <h2>Next Step</h2>
-            <p class="note">${
-              canStartCheckout
-                ? `The next structured step is ${nextActionLabel}.`
-                : "The next step depends on missing prerequisites or internal review."
-            }</p>
-            <div class="toolbar">
-              ${
-                canStartCheckout
-                  ? `<button type="button" id="start-next-step">${nextActionLabel}</button>`
-                  : `<a href="/start"><button type="button">Review Questionnaire</button></a>`
-              }
-            </div>
-            <div id="portal-status" class="note" style="margin-top:10px;"></div>
-          </div>
-          <div class="card">
             <h2>Upload Project Intake</h2>
-            <p class="note">Readiness is now based on actual uploads. Add scan files and measurements here instead of toggling statuses manually.</p>
             <form id="upload-form">
               <label class="field"><span>Room Scan File</span><input type="file" name="scanFile" accept=".pdf,.jpg,.jpeg,.png,.heic,.zip,.dwg,.dxf" /></label>
               <label class="field"><span>Measurements File</span><input type="file" name="measurementsFile" accept=".pdf,.jpg,.jpeg,.png,.csv,.xls,.xlsx" /></label>

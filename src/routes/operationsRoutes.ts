@@ -1,13 +1,42 @@
 import { randomUUID } from "node:crypto";
 import { getClientBundle, saveState } from "../data/runtimeStore.ts";
 import { isAdminAuthenticated } from "../services/auth.ts";
-import { sendTemplatedEmail } from "../services/emailDelivery.ts";
-import { generateConsultBrief, generateSampleBox } from "../services/generators.ts";
+import { sendTemplatedEmail } from "../integrations/email/delivery.ts";
+import { generateConsultBrief, generateSampleBox } from "../core/app/fulfillmentArtifacts.ts";
+import { getFallonAgentSnapshot, runFallonAgentForClient } from "../core/fallon/agentRuntime.ts";
 import { parseBody, sendJson } from "../lib/http.ts";
-import { refreshBundle } from "../services/clientBundles.ts";
+import { refreshBundle } from "../core/app/clientBundles.ts";
 import type { RouteHandler } from "./routeContext.ts";
 
 export const handleOperationsRoutes: RouteHandler = async ({ request, response, url, state }) => {
+  if (request.method === "GET" && url.pathname === "/api/agent/status") {
+    if (!isAdminAuthenticated(request)) {
+      sendJson(response, 401, { error: "Admin login required." });
+      return true;
+    }
+    sendJson(response, 200, getFallonAgentSnapshot(state));
+    return true;
+  }
+
+  if (request.method === "POST" && url.pathname === "/api/agent/run") {
+    if (!isAdminAuthenticated(request)) {
+      sendJson(response, 401, { error: "Admin login required." });
+      return true;
+    }
+    const body = await parseBody<{ clientId: string }>(request);
+    const run = runFallonAgentForClient(state, body.clientId);
+    saveState(state);
+    if (run.status === "FAILED") {
+      sendJson(response, 404, { error: run.error_message, run });
+      return true;
+    }
+    sendJson(response, 200, {
+      message: "Fallon agent briefing generated.",
+      run
+    });
+    return true;
+  }
+
   if (request.method === "POST" && url.pathname === "/api/generate/sample-box") {
     if (!isAdminAuthenticated(request)) {
       sendJson(response, 401, { error: "Admin login required." });

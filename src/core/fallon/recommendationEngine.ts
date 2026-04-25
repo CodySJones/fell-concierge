@@ -1,6 +1,6 @@
-import type { ClientBundle, OfferRecommendation } from "../types.ts";
-import { deriveReadinessFromUploads } from "./intakeUploads.ts";
-import { hasPaidProduct, hasQualifyingPaidService, isFullPlansEligible, PRODUCT_LABELS } from "./pricing.ts";
+import type { ClientBundle, OfferRecommendation } from "../../types.ts";
+import { deriveReadinessFromUploads } from "../app/intakeUploads.ts";
+import { hasPaidProduct, hasQualifyingPaidService, isFullPlansEligible, PRODUCT_LABELS } from "./serviceCatalog.ts";
 
 export interface RecommendationDetail {
   recommendation: OfferRecommendation;

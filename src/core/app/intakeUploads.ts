@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { extname, join, resolve } from "node:path";
 import { randomUUID } from "node:crypto";
-import type { AppState, ClientBundle, IntakeFileType, IntakeUpload, MeasurementsStatus, ScanStatus } from "../types.ts";
+import type { AppState, ClientBundle, IntakeFileType, IntakeUpload, MeasurementsStatus, ScanStatus } from "../../types.ts";
 
 const storageRoot = process.env.STORAGE_ROOT ? resolve(process.env.STORAGE_ROOT) : process.cwd();
 const uploadsRoot = join(storageRoot, "uploads");

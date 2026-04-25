@@ -1,12 +1,12 @@
 import { randomUUID } from "node:crypto";
-import { getClientBundle, saveState } from "../data/runtimeStore.ts";
-import { getEmailTemplatesForStage, sendTemplatedEmail } from "./emailDelivery.ts";
-import { PRICING } from "./pricing.ts";
-import { scoreQuiz } from "./quizEngine.ts";
-import { buildRecommendation, describeEligibility } from "./recommendations.ts";
+import { getClientBundle, saveState } from "../../data/runtimeStore.ts";
+import { getEmailTemplatesForStage, sendTemplatedEmail } from "../../integrations/email/delivery.ts";
+import { PRICING } from "../fallon/serviceCatalog.ts";
+import { scoreQuiz } from "../fallon/profileEngine.ts";
+import { buildRecommendation, describeEligibility } from "../fallon/recommendationEngine.ts";
 import { syncProjectReadinessFromUploads } from "./intakeUploads.ts";
-import { deriveClientState } from "./workflow.ts";
-import type { AppState, ClientBundle, ProductType, QuizSubmission } from "../types.ts";
+import { deriveClientState } from "../fallon/clientState.ts";
+import type { AppState, ClientBundle, ProductType, QuizSubmission } from "../../types.ts";
 
 export const createClientFromQuizSubmission = async (state: AppState, body: QuizSubmission, sourceOverride?: string) => {
   const clientId = randomUUID();

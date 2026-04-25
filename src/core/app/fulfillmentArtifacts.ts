@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
-import { designProfileMap } from "../data/designProfiles.ts";
-import type { ClientBundle, ConsultBrief, ProductSelection, SampleBoxItem } from "../types.ts";
+import { designProfileMap } from "../../data/designProfiles.ts";
+import type { ClientBundle, ConsultBrief, ProductSelection, SampleBoxItem } from "../../types.ts";
 
 export const generateSampleBox = (bundle: ClientBundle): SampleBoxItem[] => {
   const profileNames = [bundle.profileResult?.primary_profile, bundle.profileResult?.secondary_profile].filter(Boolean);
@@ -71,4 +71,3 @@ export const buildSelectionsSummary = (bundle: ClientBundle): ProductSelection[]
       selection_status: "PROPOSED"
     }));
 };
-

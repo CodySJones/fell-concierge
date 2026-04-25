@@ -1,4 +1,4 @@
-import { PRODUCT_LABELS } from "../services/pricing.ts";
+import { PRODUCT_LABELS } from "../core/fallon/serviceCatalog.ts";
 import { layout, nav } from "./layout.ts";
 import type { AppState, ClientBundle } from "../types.ts";
 
@@ -15,6 +15,7 @@ export const renderAdminPage = (state: AppState, bundles: ClientBundle[], metric
     `
       ${nav([
         { href: "/", label: "Public Quiz" },
+        { href: "/admin/agent", label: "Agent" },
         { href: "/admin/logout", label: "Logout" }
       ])}
       <section class="hero">
