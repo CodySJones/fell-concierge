@@ -39,7 +39,7 @@ const Header = ({ brand, hero }) =>
   ]);
 
 const Hero = ({ hero }) =>
-  h(Container, { className: "pt-14 pb-10 text-center sm:pt-20 sm:pb-14" }, [
+  h(Container, { className: "flex min-h-[calc(100svh-92px)] items-center justify-center pt-12 pb-16 text-center sm:min-h-[calc(100svh-104px)] sm:pt-14 sm:pb-20" }, [
     h("div", { className: "mx-auto max-w-[900px]" }, [
       h("h1", { className: "font-serifDisplay text-[2.7rem] leading-[1] text-ink sm:text-[4rem] lg:text-[5rem]" }, hero.headline),
       h("p", { className: "mx-auto mt-6 max-w-[680px] font-sansQuiet text-[1rem] leading-8 text-smoke sm:text-[1.16rem]" }, hero.supporting),
@@ -85,18 +85,55 @@ const ProfileRibbon = ({ profiles }) =>
     ])
   ]);
 
-const Closing = ({ closing }) =>
-  h(Container, { className: "py-12 text-center sm:py-20" }, [
+const FAQ = ({ faq }) =>
+  h(Container, { className: "py-10 sm:py-16" }, [
+    h("section", { id: "faq", className: "mx-auto max-w-[960px] border-t border-line pt-10 sm:pt-14" }, [
+      h("div", { className: "text-center" }, [
+        h("p", { className: "font-sansQuiet text-[11px] uppercase tracking-calm text-smoke" }, faq.eyebrow),
+        h("h2", { className: "mt-4 font-serifDisplay text-[2.25rem] leading-[1.04] text-ink sm:text-[3.4rem]" }, faq.title)
+      ]),
+      h("div", { className: "mt-9 grid gap-px overflow-hidden rounded-[8px] border border-line bg-line" },
+        faq.items.map((item) =>
+          h("article", { className: "bg-paper px-6 py-6 text-left sm:px-8", key: item.question }, [
+            h("h3", { className: "font-serifDisplay text-[1.45rem] leading-tight text-ink" }, item.question),
+            h("p", { className: "mt-3 font-sansQuiet text-[0.98rem] leading-7 text-smoke" }, item.answer)
+          ])
+        )
+      )
+    ])
+  ]);
+
+const Closing = ({ closing }) => {
+  const [portalHref, setPortalHref] = React.useState(closing.cta.href);
+
+  const resolvePortalHref = () => {
+    const clientId = window.localStorage.getItem("fellClientId");
+    return clientId ? `/portal?id=${encodeURIComponent(clientId)}` : closing.cta.href;
+  };
+
+  React.useEffect(() => {
+    setPortalHref(resolvePortalHref());
+  }, []);
+
+  return h(Container, { className: "py-12 text-center sm:py-20" }, [
     h("h2", { className: "font-serifDisplay text-[2.3rem] leading-[1.03] text-ink sm:text-[4rem]" }, closing.title),
     h("p", { className: "mx-auto mt-5 max-w-[640px] font-sansQuiet text-[1rem] leading-8 text-smoke sm:text-[1.08rem]" }, closing.body),
     h("div", { className: "mt-9 flex justify-center" }, [
       h("a", {
-        href: closing.cta.href,
+        href: portalHref,
+        onClick: (event) => {
+          const href = resolvePortalHref();
+          if (href !== portalHref) {
+            event.preventDefault();
+            window.location.href = href;
+          }
+        },
         className:
           "inline-flex min-w-[220px] items-center justify-center rounded-[8px] bg-ink px-7 py-3.5 font-sansQuiet text-[12px] uppercase tracking-calm text-bone transition hover:opacity-92"
-      }, "Begin the Quiz")
+      }, closing.cta.label)
     ])
   ]);
+};
 
 const Footer = ({ brand }) =>
   h(Container, { wide: true, className: "pb-12 pt-4 sm:pb-16" }, [
@@ -113,6 +150,7 @@ export const HomePage = ({ content }) =>
       h(Hero, { hero: content.hero, key: "hero" }),
       h(QuizPath, { process: content.process, closing: content.closing, key: "path" }),
       h(ProfileRibbon, { profiles: content.profiles, key: "profiles" }),
+      h(FAQ, { faq: content.faq, key: "faq" }),
       h(Closing, { closing: content.closing, key: "closing" })
     ]),
     h(Footer, { brand: content.brand, key: "footer" })

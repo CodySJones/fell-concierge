@@ -14,14 +14,18 @@ const recommendationLabel = (bundle: ClientBundle) => {
     : recommendation ?? "Sample Box";
 };
 
+const publicBaseUrl = () => (process.env.BASE_URL ?? "http://localhost:3001").replace(/\/$/, "");
+
+const portalUrl = (bundle: ClientBundle) => `${publicBaseUrl()}/portal?id=${encodeURIComponent(bundle.client.id)}`;
+
 const baseHtml = (title: string, intro: string, sections: string[]) => `
   <div style="font-family: Georgia, 'Times New Roman', serif; background:#f6efe6; padding:32px;">
-    <div style="max-width:680px; margin:0 auto; background:#fffaf3; border:1px solid #e1d4c6; border-radius:24px; padding:32px;">
+    <div style="max-width:680px; margin:0 auto; background:#fffaf3; border:1px solid #e1d4c6; border-radius:18px; padding:32px;">
       <p style="margin:0 0 12px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#7a6d60;">Fell & Co</p>
       <h1 style="margin:0 0 16px; font-size:42px; line-height:1; color:#1f1a16;">${title}</h1>
       <p style="margin:0 0 18px; color:#5f544a; font-size:17px; line-height:1.6;">${intro}</p>
       ${sections.join("")}
-      <p style="margin:24px 0 0; color:#5f544a; font-size:15px; line-height:1.6;">Fell & Co is a productized design funnel, not unlimited free design support.</p>
+      <p style="margin:26px 0 0; color:#7a6d60; font-size:13px; line-height:1.6;">Fell & Co. Redesigning Remodeling.</p>
     </div>
   </div>
 `;
@@ -31,25 +35,33 @@ export const renderEmailTemplate = (bundle: ClientBundle, templateType: EmailTem
   const recommendation = recommendationLabel(bundle);
 
   if (templateType === "PROFILE_RESULT") {
+    const profileLink = portalUrl(bundle);
     return {
       subject: `Your Fell & Co design profile is ready`,
       text: [
         `Hi ${bundle.client.name},`,
         ``,
-        `Your free Design Profile suggests ${profile} as the strongest fit for your project.`,
-        `This is directional guidance only until more project information is collected.`,
+        `Your Fell & Co design profile is ready: ${profile}.`,
+        bundle.profileResult?.secondary_profile ? `Secondary influence: ${bundle.profileResult.secondary_profile}.` : ``,
         ``,
-        `Recommended next step: ${recommendation}.`,
-        `The sample box is usually the first paid move after the quiz.`,
+        `Next step: build your Sample Box.`,
+        `Your design profile is a starting point. A sample box turns that direction into finishes you can see, touch, and compare in your own home.`,
+        ``,
+        `Log in or return to your profile here: ${profileLink}`,
         ``,
         `Fell & Co`
-      ].join("\n"),
+      ].filter(Boolean).join("\n"),
       html: baseHtml(
         `Your profile is ready`,
-        `Your free Design Profile suggests <strong>${profile}</strong> as the strongest fit for your project.`,
+        `Your Fell & Co design profile is <strong>${profile}</strong>.`,
         [
-          `<div style="padding:18px; border-radius:18px; background:#f4ebe1; margin-bottom:16px;"><strong>Recommended next step:</strong> ${recommendation}</div>`,
-          `<p style="margin:0; color:#5f544a; font-size:16px; line-height:1.6;">This result is directional. We do not treat it as contractor-ready detail, exact dimensions, or unlimited free support.</p>`
+          bundle.profileResult?.secondary_profile
+            ? `<p style="margin:0 0 16px; color:#5f544a; font-size:15px; line-height:1.6;">Secondary influence: ${bundle.profileResult.secondary_profile}</p>`
+            : "",
+          `<div style="padding:18px; border-radius:14px; background:#f4ebe1; margin-bottom:16px;"><strong>Start with real materials.</strong><br /><span style="color:#5f544a;">Your design profile is a starting point. A sample box turns that direction into finishes you can see, touch, and compare in your own home.</span></div>`,
+          `<p style="margin:0 0 18px; color:#5f544a; font-size:16px; line-height:1.6;">Your profile and login link are below. Use this link anytime to return to your result.</p>`,
+          `<a href="${profileLink}" style="display:inline-block; border-radius:8px; background:#1f1a16; color:#fffaf3; padding:13px 18px; text-decoration:none; font-size:14px;">View My Design Profile</a>`,
+          `<p style="margin:18px 0 0; color:#7a6d60; font-size:13px; line-height:1.6;">Recommended next step: ${recommendation}.</p>`
         ]
       )
     };

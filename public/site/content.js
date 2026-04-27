@@ -8,7 +8,7 @@ export const siteContent = {
     supporting:
       "Begin with a short design profile. Fell & Co. turns your room, taste, timing, and readiness into one clear next step.",
     primaryCta: { label: "Begin the Quiz", href: "/start" },
-    secondaryCta: { label: "About Us", href: "#about" }
+    secondaryCta: { label: "FAQ", href: "#faq" }
   },
   intro: {
     eyebrow: "Positioning",
@@ -63,11 +63,37 @@ export const siteContent = {
     body:
       "For clients seeking a construction path, Fell & Co. can coordinate next steps with Armitage Interiors."
   },
+  faq: {
+    eyebrow: "FAQ",
+    title: "Before you begin.",
+    items: [
+      {
+        question: "What happens after I take the quiz?",
+        answer:
+          "You receive a design profile and a recommended next step based on your room, style preferences, timeline, budget, and project readiness."
+      },
+      {
+        question: "Is this full-service design?",
+        answer:
+          "No. Fell & Co. starts with a focused, productized path so each step is clear before deeper design work, renderings, selections, or construction documents begin."
+      },
+      {
+        question: "Do I need measurements or a room scan first?",
+        answer:
+          "Not for the initial design profile. Later-stage recommendations wait until the right project inputs are available."
+      },
+      {
+        question: "Why start with a sample box?",
+        answer:
+          "Materials are easier to trust in person. The sample box turns the profile direction into something tangible before larger commitments."
+      }
+    ]
+  },
   closing: {
     title: "Start with the design profile.",
     body:
       "Receive a curated direction and continue only when the next step makes sense.",
-    cta: { label: "Begin the Quiz", href: "/start" }
+    cta: { label: "Sign In / Log In", href: "/portal" }
   },
   notes: {
     spacing:

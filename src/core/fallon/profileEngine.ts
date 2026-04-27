@@ -10,65 +10,72 @@ interface QuizQuestion {
   }[];
 }
 
+const roomProfileOptions = (weight: number) => [
+  { value: "traditional", label: "Traditional", weights: { Traditional: weight } },
+  { value: "contemporary", label: "Contemporary", weights: { Contemporary: weight } },
+  { value: "modern", label: "Modern", weights: { Modern: weight } },
+  { value: "transitional", label: "Transitional", weights: { Transitional: weight } },
+  { value: "mid-century", label: "Mid-Century", weights: { "Mid-Century": weight } },
+  { value: "natural-minimal", label: "Natural Minimal", weights: { "Natural Minimal": weight } },
+  { value: "coastal-calm", label: "Coastal Calm", weights: { "Coastal Calm": weight } },
+  { value: "rustic", label: "Rustic", weights: { Rustic: weight } },
+  { value: "industrial-modern", label: "Industrial Modern", weights: { "Industrial Modern": weight } },
+  { value: "classic-craftsman", label: "Classic Craftsman", weights: { "Classic Craftsman": weight } }
+] satisfies QuizQuestion["options"];
+
 export const quizQuestions: QuizQuestion[] = [
   {
-    id: "mood",
-    prompt: "Which bathroom mood feels most like home?",
-    options: [
-      { value: "classic", label: "Classic, collected, and rooted in tradition", weights: { Traditional: 4, Transitional: 2, "Classic Craftsman": 2 } },
-      { value: "clean", label: "Clean, current, and softly edited", weights: { Contemporary: 4, Modern: 2, "Natural Minimal": 1 } },
-      { value: "calm", label: "Quiet, airy, and deeply calming", weights: { "Natural Minimal": 4, "Coastal Calm": 3, Transitional: 1 } },
-      { value: "bold", label: "Graphic, expressive, and a little architectural", weights: { "Mid-Century": 3, "Industrial Modern": 3, Rustic: 1 } }
-    ]
+    id: "bathroom",
+    prompt: "Which bathroom would you want to step into every morning?",
+    options: roomProfileOptions(4)
+  },
+  {
+    id: "kitchen",
+    prompt: "Which kitchen would you most want to cook in?",
+    options: roomProfileOptions(3)
+  },
+  {
+    id: "living",
+    prompt: "Which living room feels most natural to you?",
+    options: roomProfileOptions(3)
+  },
+  {
+    id: "dining",
+    prompt: "Which dining room would you want to host dinner in?",
+    options: roomProfileOptions(2)
   },
   {
     id: "materials",
-    prompt: "Which material direction are you drawn to?",
+    prompt: "Which material combination would you reach for first?",
     options: [
-      { value: "tailored", label: "Painted millwork, marble, and polished metal", weights: { Traditional: 4, Transitional: 2, Contemporary: 1 } },
-      { value: "walnut", label: "Walnut, graphic tile, and warm contrast", weights: { "Mid-Century": 4, Modern: 1, "Industrial Modern": 1 } },
-      { value: "organic", label: "Plaster, pale wood, and tactile stone", weights: { "Natural Minimal": 4, Rustic: 2, "Coastal Calm": 1 } },
-      { value: "structural", label: "Steel, concrete, oak, and darker finishes", weights: { "Industrial Modern": 4, Modern: 2, Rustic: 1 } }
+      { value: "woven-natural", label: "Natural woven texture", weights: { "Natural Minimal": 2, "Coastal Calm": 2, Rustic: 1 } },
+      { value: "pale-plank", label: "Pale natural plank flooring", weights: { "Natural Minimal": 2, Contemporary: 1, "Coastal Calm": 1 } },
+      { value: "warm-herringbone", label: "Warm herringbone wood flooring", weights: { Transitional: 2, "Classic Craftsman": 2, Traditional: 1 } },
+      { value: "soapstone-rustic", label: "Soapstone with rustic wood", weights: { Rustic: 2, "Classic Craftsman": 2, "Industrial Modern": 1 } },
+      { value: "quartzite-traditional", label: "Quartzite and traditional stone", weights: { Traditional: 2, Transitional: 2, "Coastal Calm": 1 } },
+      { value: "zellige", label: "Zellige tile", weights: { "Coastal Calm": 2, "Natural Minimal": 1, Transitional: 1 } },
+      { value: "travertine", label: "Travertine", weights: { Contemporary: 2, "Natural Minimal": 1, Rustic: 1 } },
+      { value: "geometric-pale-tile", label: "Geometric pale tile", weights: { "Mid-Century": 2, Modern: 1, Contemporary: 1 } }
     ]
   },
   {
-    id: "silhouette",
-    prompt: "What fixture silhouette feels right?",
+    id: "wall",
+    prompt: "Which wall treatment feels most like you?",
     options: [
-      { value: "ornate", label: "Bridge, cross-handle, or more decorative details", weights: { Traditional: 3, "Classic Craftsman": 3, Transitional: 1 } },
-      { value: "tailored", label: "Tailored and timeless, but not too formal", weights: { Transitional: 4, Contemporary: 2, "Coastal Calm": 1 } },
-      { value: "minimal", label: "Streamlined, sculptural, and quietly modern", weights: { Modern: 4, "Natural Minimal": 2, Contemporary: 1 } },
-      { value: "graphic", label: "Distinctive, retro, or industrial with personality", weights: { "Mid-Century": 3, "Industrial Modern": 3, Rustic: 1 } }
+      { value: "gold-wabi-abstract", label: "Gold and wabi abstract wall", weights: { Modern: 2, Contemporary: 2, "Natural Minimal": 1 } },
+      { value: "animal-line", label: "Animal line drawing wallpaper", weights: { "Mid-Century": 2, Rustic: 1, "Classic Craftsman": 1 } },
+      { value: "blue-floral", label: "Blue floral wallpaper", weights: { Traditional: 2, "Coastal Calm": 2, Transitional: 1 } },
+      { value: "morris-botanical", label: "Morris green botanical wallpaper", weights: { "Classic Craftsman": 2, Traditional: 2, "Natural Minimal": 1 } }
     ]
   },
   {
-    id: "palette",
-    prompt: "Choose a palette family.",
+    id: "pattern",
+    prompt: "How much pattern do you want in the room?",
     options: [
-      { value: "soft-classic", label: "Ivory, mushroom, taupe, and gentle contrast", weights: { Traditional: 3, Transitional: 3, Contemporary: 1 } },
-      { value: "earth", label: "Moss, cognac, clay, and aged brass", weights: { "Classic Craftsman": 3, Rustic: 3, "Mid-Century": 1 } },
-      { value: "minimal", label: "Chalk, sand, pale oak, and quiet stone", weights: { "Natural Minimal": 4, Contemporary: 2, "Coastal Calm": 1 } },
-      { value: "moody", label: "Ink, charcoal, walnut, and blackened metals", weights: { Modern: 3, "Industrial Modern": 3, "Mid-Century": 1 } }
-    ]
-  },
-  {
-    id: "personality",
-    prompt: "How adventurous should the space feel?",
-    options: [
-      { value: "reserved", label: "Reserved, elegant, and quietly tailored", weights: { Traditional: 2, Transitional: 3, Contemporary: 2 } },
-      { value: "warm", label: "Warm, human, and visibly crafted", weights: { Rustic: 3, "Classic Craftsman": 3, "Coastal Calm": 1 } },
-      { value: "graphic", label: "Distinctive and visually strong", weights: { Modern: 2, "Mid-Century": 3, "Industrial Modern": 3 } },
-      { value: "soft", label: "Soft, easy, and low-drama", weights: { "Natural Minimal": 3, "Coastal Calm": 3, Transitional: 1 } }
-    ]
-  },
-  {
-    id: "priority",
-    prompt: "What matters most in the finished room?",
-    options: [
-      { value: "timeless", label: "A timeless room that will age gracefully", weights: { Traditional: 3, Transitional: 3, "Classic Craftsman": 2 } },
-      { value: "clarity", label: "Calm, clarity, and edited restraint", weights: { "Natural Minimal": 4, Modern: 2, Contemporary: 1 } },
-      { value: "character", label: "Character, texture, and lived-in warmth", weights: { Rustic: 3, "Classic Craftsman": 3, "Coastal Calm": 1 } },
-      { value: "presence", label: "Distinct style and a strong visual point of view", weights: { "Mid-Century": 3, "Industrial Modern": 3, Contemporary: 1 } }
+      { value: "almost-none", label: "Almost none — calm texture over pattern", weights: { "Natural Minimal": 2, Contemporary: 1, Modern: 1 } },
+      { value: "a-little", label: "A little — subtle tile, fabric, or wallpaper", weights: { Transitional: 2, "Coastal Calm": 1, Contemporary: 1 } },
+      { value: "some", label: "Some — one expressive feature", weights: { Traditional: 1, "Classic Craftsman": 1, "Mid-Century": 1 } },
+      { value: "a-lot", label: "A lot — pattern and color are part of the point", weights: { "Mid-Century": 2, Traditional: 1, Rustic: 1 } }
     ]
   }
 ];
@@ -90,7 +97,28 @@ export const scoreQuiz = (submission: QuizSubmission) => {
     }
   }
 
-  const ranked = [...scores.entries()].sort((a, b) => b[1] - a[1]);
+  const tieBreakOrder = new Map<DesignProfileName, number>();
+  for (const questionId of ["bathroom", "kitchen", "living", "dining"]) {
+    const question = quizQuestions.find((candidate) => candidate.id === questionId);
+    const answer = submission.answers.find((candidate) => candidate.startsWith(`${questionId}:`));
+    const value = answer?.split(":")[1];
+    const option = question?.options.find((candidate) => candidate.value === value);
+    if (!option) {
+      continue;
+    }
+    for (const profile of Object.keys(option.weights) as DesignProfileName[]) {
+      if (!tieBreakOrder.has(profile)) {
+        tieBreakOrder.set(profile, tieBreakOrder.size);
+      }
+    }
+  }
+
+  const ranked = [...scores.entries()].sort((a, b) => {
+    if (b[1] !== a[1]) {
+      return b[1] - a[1];
+    }
+    return (tieBreakOrder.get(a[0]) ?? 99) - (tieBreakOrder.get(b[0]) ?? 99);
+  });
   const total = ranked.reduce((sum, entry) => sum + entry[1], 0) || 1;
   const [primary, secondary] = ranked;
 

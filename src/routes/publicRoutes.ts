@@ -6,7 +6,7 @@ import { getEmailProviderLabel } from "../integrations/email/delivery.ts";
 import { getPaymentProviderLabel, renderMockCheckoutPage, decodePaymentToken } from "../integrations/payments/checkout.ts";
 import { send, sendJson, sendStaticFile } from "../lib/http.ts";
 import { renderPortalPage } from "../ui/portalPages.ts";
-import { renderHomePage, renderResultPage, renderStartPage } from "../ui/publicPages.ts";
+import { renderHomePage, renderPortalAccessPage, renderResultPage, renderStartPage } from "../ui/publicPages.ts";
 import type { RouteHandler } from "./routeContext.ts";
 
 const publicDir = join(process.cwd(), "public");
@@ -67,7 +67,11 @@ export const handlePublicRoutes: RouteHandler = async ({ request, response, url,
     const clientId = url.searchParams.get("id");
     const bundle = clientId ? getClientBundle(state, clientId) : undefined;
     if (!bundle) {
-      send(response, 404, "<h1>Client not found</h1>");
+      if (!clientId) {
+        send(response, 200, renderPortalAccessPage());
+      } else {
+        send(response, 404, renderPortalAccessPage());
+      }
       return true;
     }
     send(response, 200, renderPortalPage(bundle));

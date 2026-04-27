@@ -1,9 +1,112 @@
 import { designProfileMap } from "../data/designProfiles.ts";
-import { PRODUCT_LABELS } from "../core/fallon/serviceCatalog.ts";
 import type { ClientBundle } from "../types.ts";
 import { footer, layout, nav } from "./layout.ts";
 
-const typeformEmbedId = "01KPW0ZJQHA1W2WQATT9DVHRBK";
+const quizAsset = (name: string) => `/assets/quiz/${name}`;
+
+const roomProfiles = [
+  ["traditional", "Traditional"],
+  ["contemporary", "Contemporary"],
+  ["modern", "Modern"],
+  ["transitional", "Transitional"],
+  ["mid-century", "Mid-Century"],
+  ["natural-minimal", "Natural Minimal"],
+  ["coastal-calm", "Coastal Calm"],
+  ["rustic", "Rustic"],
+  ["industrial-modern", "Industrial Modern"],
+  ["classic-craftsman", "Classic Craftsman"]
+] as const;
+
+const roomOptions = (group: "bathroom" | "kitchen" | "living" | "dining") =>
+  roomProfiles.map(([slug, label]) => ({
+    value: slug,
+    label: `${label} ${group}`,
+    img: quizAsset(`${group}-${slug}.${group === "living" && slug !== "transitional" && slug !== "classic-craftsman" ? "jpeg" : group === "dining" ? "jpg" : "png"}`)
+  }));
+
+const startQuizQuestions = [
+  {
+    id: "bathroom",
+    prompt: "Which bathroom would you want to step into every morning?",
+    layout: "room",
+    options: roomOptions("bathroom")
+  },
+  {
+    id: "kitchen",
+    prompt: "Which kitchen would you most want to cook in?",
+    layout: "room",
+    options: roomOptions("kitchen")
+  },
+  {
+    id: "living",
+    prompt: "Which living room feels most natural to you?",
+    layout: "room",
+    options: roomOptions("living")
+  },
+  {
+    id: "dining",
+    prompt: "Which dining room would you want to host dinner in?",
+    layout: "wide",
+    options: roomOptions("dining")
+  },
+  {
+    id: "materials",
+    prompt: "Which material combination would you reach for first?",
+    layout: "material",
+    options: [
+      { value: "woven-natural", label: "Natural woven rug or fabric texture", img: quizAsset("armadillorug.jpg") },
+      { value: "pale-plank", label: "Pale natural plank flooring", img: quizAsset("dinesencoastnatur.png") },
+      { value: "warm-herringbone", label: "Herringbone warm wood flooring", img: quizAsset("hakwoodcraftrust.png") },
+      { value: "soapstone-rustic", label: "Soapstone with rustic wood", img: quizAsset("soapcraftrust.png") },
+      { value: "quartzite-traditional", label: "Quartzite and traditional stone", img: quizAsset("quartzitetradcoast.png") },
+      { value: "zellige", label: "Zellige tile", img: quizAsset("zellige.jpg") },
+      { value: "travertine", label: "Travertine", img: quizAsset("travertine.png") },
+      { value: "geometric-pale-tile", label: "Geometric pale tile", img: quizAsset("geocolortile.jpg") }
+    ]
+  },
+  {
+    id: "wall",
+    prompt: "Which wall treatment feels most like you?",
+    layout: "material",
+    options: [
+      { value: "gold-wabi-abstract", label: "Gold wabi abstract wall treatment", img: quizAsset("calicowabi.png") },
+      { value: "animal-line", label: "Animal line drawing wallpaper", img: quizAsset("artemis.png") },
+      { value: "blue-floral", label: "Blue floral wallpaper", img: quizAsset("bienfait.png") },
+      { value: "morris-botanical", label: "Morris green botanical wallpaper", img: quizAsset("morris.jpg") }
+    ]
+  },
+  {
+    id: "pattern",
+    prompt: "How much pattern do you want in the room?",
+    layout: "text",
+    options: [
+      { value: "almost-none", label: "Almost none — calm texture over pattern" },
+      { value: "a-little", label: "A little — subtle tile, fabric, or wallpaper" },
+      { value: "some", label: "Some — one expressive feature" },
+      { value: "a-lot", label: "A lot — pattern and color are part of the point" }
+    ]
+  },
+  {
+    id: "contact",
+    prompt: "Save your design profile.",
+    intro: "Create a profile so we can save your quiz result, connect it to your project details, and show you the best next step.",
+    layout: "contact",
+    contact: true
+  }
+];
+
+const resultHeroImages: Record<string, string> = {
+  Traditional: quizAsset("bathroom-traditional.png"),
+  Contemporary: quizAsset("bathroom-contemporary.png"),
+  Modern: quizAsset("bathroom-modern.png"),
+  Transitional: quizAsset("bathroom-transitional.png"),
+  "Mid-Century": quizAsset("bathroom-mid-century.png"),
+  "Natural Minimal": quizAsset("bathroom-natural-minimal.png"),
+  "Coastal Calm": quizAsset("bathroom-coastal-calm.png"),
+  Rustic: quizAsset("bathroom-rustic.png"),
+  "Industrial Modern": quizAsset("bathroom-industrial-modern.png"),
+  "Classic Craftsman": quizAsset("bathroom-classic-craftsman.png")
+};
 
 export const renderHomePage = () => `<!doctype html>
 <html lang="en">
@@ -58,157 +161,267 @@ export const renderStartPage = () =>
         { href: "/start", label: "Start Here", cta: true }
       ])}
       <section class="hero start-hero">
-        <div class="eyebrow">Design Profile</div>
         <div class="stack lg">
-          <h1>A focused start for your remodel.</h1>
-          <p class="lede">Answer a short set of questions about your room, taste, timing, and readiness. Fell & Co. will return a design profile and the clearest next step.</p>
-          <div class="pill-row">
-            <span class="pill">About 3 minutes</span>
-            <span class="pill">Kitchen + bath focused</span>
-            <span class="pill">Directional guidance</span>
+          <h1>Fell Concierge</h1>
+          <p class="lede">Your personal design assistant, helping you define your style and guiding your selections.</p>
+          <div class="start-hero-preview" aria-hidden="true">
+            <img src="/assets/quiz/bathroom-traditional.png" alt="" loading="eager" />
+            <img src="/assets/quiz/bathroom-coastal-calm.png" alt="" loading="eager" />
+            <img src="/assets/quiz/bathroom-modern.png" alt="" loading="eager" />
           </div>
         </div>
       </section>
       <section class="section">
-        <div class="card quiz-shell">
-          <div class="quiz-shell-head">
-            <div class="stack sm">
-              <div class="eyebrow">Quiz</div>
-              <h2 style="margin-bottom: 0;">Design Profile Intake</h2>
-            </div>
-            <a class="text-link" href="https://form.typeform.com/to/${typeformEmbedId}" target="_blank" rel="noreferrer">Open in a new tab</a>
+        <div class="card quiz-shell native-quiz-shell">
+          <div class="sr-only" id="quiz-progress-label">Question 1 of 7</div>
+          <div class="quiz-step-count" id="quiz-step-count">1 / 7</div>
+          <div class="quiz-progress" aria-hidden="true"><span id="quiz-progress-bar"></span></div>
+          <div id="native-quiz" class="native-quiz" aria-live="polite"></div>
+          <div class="quiz-actions">
+            <button type="button" class="ghost" id="quiz-back">Back</button>
+            <button type="button" class="accent" id="quiz-next">Next</button>
           </div>
-          <div class="quiz-frame">
-            <div
-              data-tf-live="${typeformEmbedId}"
-              data-tf-on-submit="fellTypeformSubmitted"
-              style="min-height: 760px; border-radius: 26px; overflow: hidden; background: #fbf7f1;"
-            ></div>
-          </div>
-          <div id="typeform-sync-status" class="note sync-status" aria-live="polite"></div>
+          <div id="quiz-status" class="note sync-status" aria-live="polite"></div>
         </div>
       </section>
       ${footer()}
-      <script src="//embed.typeform.com/next/embed.js"></script>
       <script>
-        const syncStatus = document.getElementById("typeform-sync-status");
+        const quizRoot = document.getElementById("native-quiz");
+        const progressLabel = document.getElementById("quiz-progress-label");
+        const progressCount = document.getElementById("quiz-step-count");
+        const progressBar = document.getElementById("quiz-progress-bar");
+        const statusEl = document.getElementById("quiz-status");
+        const backButton = document.getElementById("quiz-back");
+        const nextButton = document.getElementById("quiz-next");
 
-        const sleep = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+        const questions = ${JSON.stringify(startQuizQuestions)};
 
-        window.fellTypeformSubmitted = async ({ formId, responseId }) => {
-          syncStatus.textContent = "Preparing your design profile...";
+        const answers = {};
+        let step = 0;
+
+        const renderOptions = (question) => {
+          if (question.layout === "text") {
+            return '<div class="text-option-list">' + question.options.map((option) => {
+              const selected = answers[question.id] === option.value;
+              return '<button type="button" class="text-option ' + (selected ? "selected" : "") + '" aria-pressed="' + selected + '" data-value="' + option.value + '">' +
+                '<span>' + option.label + '</span>' +
+                '<span class="option-check" aria-hidden="true">✓</span>' +
+              '</button>';
+            }).join("") + '</div>';
+          }
+          const gridClass = question.layout === "wide" ? "wide" : question.layout === "material" ? "material" : "room";
+          return '<div class="image-option-grid ' + gridClass + '">' + question.options.map((option) => {
+            const selected = answers[question.id] === option.value;
+            return '<button type="button" class="image-option ' + (selected ? "selected" : "") + '" aria-pressed="' + selected + '" data-value="' + option.value + '">' +
+              '<span class="image-option-media"><img src="' + option.img + '" alt="" loading="lazy" /></span>' +
+              '<span class="option-check" aria-hidden="true">✓</span>' +
+              '<span class="sr-only">' + option.label + '</span>' +
+            '</button>';
+          }).join("") + '</div>';
+        };
+
+        const renderContact = () => [
+          '<form id="quiz-contact-form" class="quiz-contact-form">',
+            '<div class="profile-form-section">',
+              '<h3>Your profile</h3>',
+              '<div class="grid two">',
+                '<label class="field">Name<input name="name" autocomplete="name" required /></label>',
+                '<label class="field">Email<input name="email" type="email" autocomplete="email" required /></label>',
+                '<label class="field optional">Phone number<span class="field-note">Optional</span><input name="phone" autocomplete="tel" /></label>',
+                '<label class="field magic-link-field"><span>Login setup</span><span class="magic-link-note">Send me a secure sign-in link after my profile is saved.</span><input type="hidden" name="loginSetup" value="secure-link" /></label>',
+              '</div>',
+            '</div>',
+            '<div class="profile-form-section">',
+              '<h3>Your project</h3>',
+              '<div class="grid two">',
+                '<label class="field">Project address<input name="projectAddress" autocomplete="street-address" required /></label>',
+                '<label class="field">Renovation focus<select name="roomType"><option>Bathroom</option><option>Kitchen</option><option>Kitchen + first floor</option><option>Whole-home renovation</option><option>Not sure yet</option></select></label>',
+                '<label class="field">Approximate budget<select name="budgetRange"><option>Under $50k</option><option>$50k-$100k</option><option>$100k-$200k</option><option>$200k-$400k</option><option>$400k+</option><option>Not sure yet</option></select></label>',
+                '<label class="field">Approximate timeline<select name="timeline"><option>Exploring</option><option>0-3 months</option><option>3-6 months</option><option>6-12 months</option><option>12+ months</option></select></label>',
+              '</div>',
+              '<label class="field optional">What are you hoping to change?<span class="field-note">Optional</span><textarea name="scopeNotes" placeholder="A few words are enough."></textarea></label>',
+            '</div>',
+            '<a class="quiet-link skip-profile-link" href="/">Skip for now</a>',
+          '</form>'
+        ].join("");
+
+        const render = () => {
+          const question = questions[step];
+          progressLabel.textContent = question.contact ? "Final step" : "Question " + (step + 1) + " of " + (questions.length - 1);
+          progressCount.textContent = question.contact ? "Profile" : (step + 1) + " / " + (questions.length - 1);
+          progressBar.style.width = Math.round(((step + 1) / questions.length) * 100) + "%";
+          quizRoot.innerHTML =
+            '<div class="quiz-question-head">' +
+              '<h2>' + question.prompt + '</h2>' +
+              (question.intro ? '<p class="note">' + question.intro + '</p>' : '') +
+              (question.help ? '<p class="note">' + question.help + '</p>' : '') +
+            '</div>' +
+            (question.contact ? renderContact() : renderOptions(question));
+          backButton.disabled = step === 0;
+          nextButton.disabled = !question.contact && !answers[question.id];
+          nextButton.textContent = question.contact ? "Save My Profile & View Results" : "Next";
+          statusEl.textContent = "";
+
+          quizRoot.querySelectorAll(".image-option, .text-option").forEach((button) => {
+            button.addEventListener("click", () => {
+              answers[question.id] = button.dataset.value;
+              render();
+            });
+          });
+        };
+
+        const submitQuiz = async () => {
+          const form = document.getElementById("quiz-contact-form");
+          if (!form.reportValidity()) {
+            return;
+          }
+
+          statusEl.textContent = "Preparing your design profile...";
+          nextButton.disabled = true;
 
           try {
-            await fetch("/api/typeform/complete", {
+            const data = new FormData(form);
+            const payload = {
+              name: String(data.get("name") || ""),
+              email: String(data.get("email") || ""),
+              phone: String(data.get("phone") || ""),
+              projectAddress: String(data.get("projectAddress") || ""),
+              roomType: String(data.get("roomType") || ""),
+              scopeNotes: String(data.get("scopeNotes") || ""),
+              budgetRange: String(data.get("budgetRange") || ""),
+              contractorStatus: "Profile saved",
+              timeline: String(data.get("timeline") || ""),
+              source: "Fell Concierge native quiz",
+              answers: Object.entries(answers).map(([id, value]) => id + ":" + value)
+            };
+
+            const response = await fetch("/api/quiz", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ formId, responseId })
+              body: JSON.stringify(payload)
             });
-
-            for (let attempt = 0; attempt < 30; attempt += 1) {
-              const statusResponse = await fetch("/api/typeform/status?responseId=" + encodeURIComponent(responseId), {
-                cache: "no-store"
-              });
-              const status = await statusResponse.json();
-              if (status.clientId) {
-                window.location.href = "/result?id=" + encodeURIComponent(status.clientId);
-                return;
-              }
-
-              syncStatus.textContent = attempt < 8
-                ? "Preparing your design profile..."
-                : "Still syncing your result. This usually only takes another moment.";
-
-              await sleep(1500);
+            const result = await response.json();
+            if (!response.ok || !result.clientId) {
+              throw new Error(result.error || "Quiz submission failed.");
             }
-
-            syncStatus.innerHTML = 'Thanks. Your submission was received, but the result is still syncing. Please check your email for the next step, or <a href="/start">refresh and try again</a> in a moment.';
+            window.localStorage.setItem("fellClientId", result.clientId);
+            window.location.href = "/result?id=" + encodeURIComponent(result.clientId);
           } catch (error) {
-            syncStatus.innerHTML = 'Thanks. Your submission was received, but the result could not be loaded right away. Please <a href="/start">try again</a> in a moment.';
+            nextButton.disabled = false;
+            statusEl.textContent = "Something did not submit cleanly. Please try again.";
           }
         };
+
+        backButton.addEventListener("click", () => {
+          if (step > 0) {
+            step -= 1;
+            render();
+          }
+        });
+
+        nextButton.addEventListener("click", () => {
+          const question = questions[step];
+          if (question.contact) {
+            submitQuiz();
+            return;
+          }
+          if (!answers[question.id]) {
+            statusEl.textContent = "Choose one image to continue.";
+            return;
+          }
+          step += 1;
+          render();
+          window.scrollTo({ top: document.querySelector(".native-quiz-shell").offsetTop - 16, behavior: "smooth" });
+        });
+
+        render();
       </script>
+    `
+  );
+
+export const renderPortalAccessPage = () =>
+  layout(
+    "Sign In to Fell & Co",
+    `
+      ${nav([
+        { href: "/", label: "Home" },
+        { href: "/start", label: "Start Here" }
+      ])}
+      <section class="result-hero portal-access-hero">
+        <div class="result-copy">
+          <p class="result-eyebrow">Fell Concierge</p>
+          <h1>Return to your saved design profile.</h1>
+          <p class="result-lede">Use the email or secure link connected to your Fell & Co design profile.</p>
+        </div>
+        <aside class="result-action soft-panel">
+          <div class="result-action-copy">
+            <h2>Looking for your result?</h2>
+            <p>Your result is saved to the profile you created after completing the quiz. Use the same email address to return to it.</p>
+            <a class="quiet-link" href="/start">Retake the quiz</a>
+          </div>
+        </aside>
+      </section>
+      ${footer()}
     `
   );
 
 export const renderResultPage = (bundle: ClientBundle) => {
   const primary = bundle.profileResult?.primary_profile ? designProfileMap.get(bundle.profileResult.primary_profile) : undefined;
-  const secondary = bundle.profileResult?.secondary_profile ? designProfileMap.get(bundle.profileResult.secondary_profile) : undefined;
+  const heroImage = bundle.profileResult?.primary_profile ? resultHeroImages[bundle.profileResult.primary_profile] : quizAsset("bathroom-transitional.png");
+  const profileName = bundle.profileResult?.primary_profile ?? "Design Profile";
+  const cues = (primary?.style_cues ?? []).slice(0, 4);
+  const materialDirection = (primary?.palette_material_direction ?? []).slice(0, 4).join(", ");
+  const secondaryText = bundle.profileResult?.secondary_profile ? `Secondary influence: ${bundle.profileResult.secondary_profile}` : "";
   return layout(
     "Your Fell & Co Design Profile",
     `
       ${nav([
         { href: "/", label: "Home" },
-        { href: "/start", label: "Start Here" },
-        { href: `/portal?id=${bundle.client.id}`, label: "Continue", cta: true }
+        { href: "/start", label: "Start Here" }
       ])}
-      <section class="hero">
-        <div class="eyebrow">Your Result</div>
-        <div class="hero-grid">
-          <div class="stack">
-            <h1>${bundle.profileResult?.primary_profile ?? "Design Profile"}</h1>
-            <p class="lede">${primary?.description ?? ""}</p>
-            <div class="pill-row">
-              <span class="pill">Primary confidence: ${Math.round((bundle.profileResult?.primary_confidence ?? 0) * 100)}%</span>
-              ${
-                bundle.profileResult?.secondary_profile
-                  ? `<span class="pill">Secondary: ${bundle.profileResult.secondary_profile} (${Math.round((bundle.profileResult.secondary_confidence ?? 0) * 100)}%)</span>`
-                  : ""
-              }
-              <span class="pill">Recommended next step: ${bundle.recommendation?.recommended_offer && bundle.recommendation.recommended_offer in PRODUCT_LABELS ? PRODUCT_LABELS[bundle.recommendation.recommended_offer as keyof typeof PRODUCT_LABELS] : bundle.recommendation?.recommended_offer}</span>
-            </div>
-          </div>
-          <div class="hero-panel stack">
-            <span class="badge">What happens next</span>
-            <h3>Continue with Fell & Co through the client portal.</h3>
-            <p class="note">Your profile is the starting point. The portal keeps the next step and project readiness in one place.</p>
-            <a href="/portal?id=${bundle.client.id}"><button type="button" class="accent">Open My Portal</button></a>
+      <section class="result-hero">
+        <div class="result-copy">
+          <p class="result-eyebrow">Your Design Profile</p>
+          <h1>${profileName}</h1>
+          <p class="result-lede">${primary?.description ?? ""}</p>
+          <div class="result-meta">
+            <span>Primary match: ${Math.round((bundle.profileResult?.primary_confidence ?? 0) * 100)}%</span>
+            ${secondaryText ? `<span>${secondaryText}</span>` : ""}
           </div>
         </div>
+        <aside class="result-action">
+          <div class="result-hero-media">
+            <img src="${heroImage}" alt="" />
+          </div>
+          <div class="result-action-copy">
+            <h2>Start with real materials.</h2>
+            <p>Your design profile is a starting point. A sample box turns that direction into finishes you can see, touch, and compare in your own home.</p>
+            <button type="button" class="accent" id="purchase-sample-box-hero">Build My Sample Box</button>
+            <a class="quiet-link" href="/portal?id=${bundle.client.id}">Save My Profile</a>
+          </div>
+        </aside>
       </section>
-      <section class="grid two">
-        <div class="card stack">
-          <div>
-            <h2>Why this profile fits</h2>
-            <p>${bundle.profileResult?.rationale ?? ""}</p>
-          </div>
-          <div>
-            <h3>Style cues</h3>
-            <div class="pill-row">${(primary?.style_cues ?? []).map((cue) => `<span class="pill">${cue}</span>`).join("")}</div>
-          </div>
-          <div>
-            <h3>Material direction</h3>
-            <div class="pill-row">${(primary?.palette_material_direction ?? []).map((cue) => `<span class="pill">${cue}</span>`).join("")}</div>
-          </div>
+      <section class="result-detail-grid">
+        <div class="result-detail">
+          <h2>Your style direction</h2>
+          <p>${profileName} works best when the room feels intentional, edited, and tactile. The palette should support the mood without becoming flat; layered materials, softened lighting, and a restrained mix keep the direction livable.</p>
+          <div class="pill-row quiet">${cues.map((cue) => `<span class="pill">${cue}</span>`).join("")}</div>
+          ${materialDirection ? `<p class="result-note">Materials to notice: ${materialDirection}.</p>` : ""}
         </div>
-        <div class="card stack">
-          <div>
-            <h2>Recommended next step</h2>
-            <p>${bundle.recommendation?.rationale ?? ""}</p>
-          </div>
-          <p class="note">This is directional guidance. Exact dimensions, contractor-facing details, and final vendor commitments come later.</p>
-          <div class="toolbar">
-            <a href="/portal?id=${bundle.client.id}"><button type="button">Continue with Fell & Co</button></a>
-            <button type="button" class="secondary" id="purchase-sample-box">Buy Sample Box Now</button>
-          </div>
+        <div class="result-detail soft-panel">
+          <h2>Recommended next step</h2>
+          <p>The sample box is the best first step because it turns the design profile into real materials you can hold, compare, and approve before committing to a larger design package.</p>
+          <button type="button" class="accent" id="purchase-sample-box">Build My Sample Box</button>
           <div id="purchase-status" class="note"></div>
         </div>
       </section>
-      ${
-        secondary
-          ? `
-            <section class="section">
-              <div class="card soft">
-                <h3>Secondary profile nuance</h3>
-                <p><strong>${secondary.name}</strong> can add a secondary layer if the room wants a blended direction instead of a single strict style lane.</p>
-              </div>
-            </section>
-          `
-          : ""
-      }
+      <section class="profile-access">
+        <a href="/portal?id=${bundle.client.id}"><button type="button" class="ghost">Sign In / Log In</button></a>
+      </section>
       ${footer()}
       <script>
-        document.getElementById("purchase-sample-box")?.addEventListener("click", async () => {
+        window.localStorage.setItem("fellClientId", "${bundle.client.id}");
+        const startSampleBoxCheckout = async () => {
           const response = await fetch("/api/checkout/start", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -220,7 +433,9 @@ export const renderResultPage = (bundle: ClientBundle) => {
           if (response.ok) {
             window.location.href = result.checkoutUrl;
           }
-        });
+        };
+        document.getElementById("purchase-sample-box")?.addEventListener("click", startSampleBoxCheckout);
+        document.getElementById("purchase-sample-box-hero")?.addEventListener("click", startSampleBoxCheckout);
       </script>
     `
   );
