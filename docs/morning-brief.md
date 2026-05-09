@@ -46,7 +46,6 @@ It is weakest when treated as:
 
 1. Split `src/server.ts` into route modules
 - intake
-- typeform
 - portal
 - admin
 - payments

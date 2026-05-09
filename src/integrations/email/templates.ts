@@ -1,5 +1,6 @@
 import type { ClientBundle, EmailTemplateType } from "../../types.ts";
 import { PRODUCT_LABELS } from "../../core/fallon/serviceCatalog.ts";
+import { createPortalToken } from "../../services/portalLinks.ts";
 
 export interface RenderedEmail {
   subject: string;
@@ -14,9 +15,10 @@ const recommendationLabel = (bundle: ClientBundle) => {
     : recommendation ?? "Sample Box";
 };
 
-const publicBaseUrl = () => (process.env.BASE_URL ?? "http://localhost:3001").replace(/\/$/, "");
+const publicBaseUrl = () => (process.env.BASE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
-const portalUrl = (bundle: ClientBundle) => `${publicBaseUrl()}/portal?id=${encodeURIComponent(bundle.client.id)}`;
+const portalUrl = (bundle: ClientBundle) =>
+  `${publicBaseUrl()}/portal?token=${encodeURIComponent(createPortalToken(bundle.client.id, bundle.client.email))}`;
 
 const baseHtml = (title: string, intro: string, sections: string[]) => `
   <div style="font-family: Georgia, 'Times New Roman', serif; background:#f6efe6; padding:32px;">

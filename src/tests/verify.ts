@@ -3,8 +3,10 @@ import { initialState } from "../data/seed.ts";
 import { getClientBundle } from "../data/runtimeStore.ts";
 import { clearSessionCookie, createSessionCookie, hashPassword, verifyPassword } from "../services/auth.ts";
 import { getEmailProviderLabel, getEmailTemplatesForStage, sendTemplatedEmail } from "../integrations/email/delivery.ts";
+import { renderEmailTemplate } from "../integrations/email/templates.ts";
 import { deriveReadinessFromUploads, saveUploadedFile } from "../core/app/intakeUploads.ts";
 import { createCheckoutSession, decodePaymentToken, validateCheckoutRequest } from "../integrations/payments/checkout.ts";
+import { createPortalToken, decodePortalToken } from "../services/portalLinks.ts";
 import { buildRecommendation } from "../core/fallon/recommendationEngine.ts";
 import { hasQualifyingPaidService, isFullPlansEligible } from "../core/fallon/serviceCatalog.ts";
 import { buildFallonAgentBriefing } from "../core/fallon/agent.ts";
@@ -56,6 +58,14 @@ assert.deepEqual(getEmailTemplatesForStage(jordan), ["SAMPLE_BOX_REMINDER"], "Pr
 const emailDelivery = await sendTemplatedEmail(state, jordan, "PROFILE_RESULT");
 assert.equal(emailDelivery.status, "SIMULATED", "Local email delivery should simulate when no provider is configured");
 assert.equal(state.emailDeliveries.length, 1, "Email attempts should be recorded in state");
+const portalToken = createPortalToken(jordan.client.id, jordan.client.email);
+const decodedPortalToken = decodePortalToken(portalToken);
+assert.equal(decodedPortalToken?.clientId, jordan.client.id, "Portal token should preserve the client id");
+assert.equal(decodedPortalToken?.email, jordan.client.email, "Portal token should preserve the normalized email");
+assert.equal(decodePortalToken(`${portalToken}x`), null, "Tampered portal tokens should be rejected");
+const renderedProfileEmail = renderEmailTemplate(jordan, "PROFILE_RESULT");
+assert.ok(renderedProfileEmail.text.includes("/portal?token="), "Profile emails should include a signed portal link");
+assert.equal(renderedProfileEmail.text.includes(`/portal?id=${jordan.client.id}`), false, "Profile emails should not expose raw client id links");
 const uploadState = initialState();
 saveUploadedFile(uploadState, {
   clientId: "client_demo_jordan",

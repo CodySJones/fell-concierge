@@ -13,6 +13,10 @@ services:
         sync: false
       - key: SESSION_SECRET
         generateValue: true
+      - key: PORTAL_LINK_SECRET
+        generateValue: true
+      - key: PORTAL_LINK_TTL_DAYS
+        value: 30
       - key: ADMIN_EMAIL
         sync: false
       - key: ADMIN_PASSWORD
@@ -20,17 +24,13 @@ services:
       - key: STORAGE_ROOT
         value: /var/data/fell-concierge
       - key: EMAIL_PROVIDER
-        value: log
+        value: resend
+      - key: EMAIL_FROM
+        value: hello@fell-co.com
+      - key: RESEND_API_KEY
+        sync: false
       - key: PAYMENT_PROVIDER
         value: mock
-      - key: TYPEFORM_FORM_ID
-        value: 01KPW0ZJQHA1W2WQATT9DVHRBK
-      - key: TYPEFORM_API_TOKEN
-        sync: false
-      - key: TYPEFORM_WEBHOOK_SECRET
-        sync: false
-      - key: TYPEFORM_WEBHOOK_TAG
-        value: fell-concierge
     disk:
       name: fell-concierge-storage
       mountPath: /var/data/fell-concierge

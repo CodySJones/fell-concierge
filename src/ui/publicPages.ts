@@ -339,7 +339,7 @@ export const renderStartPage = () =>
     `
   );
 
-export const renderPortalAccessPage = () =>
+export const renderPortalAccessPage = (message = "Use the email or secure link connected to your Fell & Co design profile.") =>
   layout(
     "Sign In to Fell & Co",
     `
@@ -351,7 +351,7 @@ export const renderPortalAccessPage = () =>
         <div class="result-copy">
           <p class="result-eyebrow">Fell Concierge</p>
           <h1>Return to your saved design profile.</h1>
-          <p class="result-lede">Use the email or secure link connected to your Fell & Co design profile.</p>
+          <p class="result-lede">${message}</p>
         </div>
         <aside class="result-action soft-panel">
           <div class="result-action-copy">

@@ -69,6 +69,8 @@ Supported variables:
 - `ADMIN_EMAIL`: admin login email for internal routes
 - `ADMIN_PASSWORD`: admin login password for internal routes
 - `SESSION_SECRET`: signing secret for the admin session cookie
+- `PORTAL_LINK_SECRET`: optional signing secret for client profile/login links; falls back to `SESSION_SECRET`
+- `PORTAL_LINK_TTL_DAYS`: signed profile link lifetime, defaults to `30`
 - `BASE_URL`: public app base URL used for checkout redirects and webhook flows
 - `PAYMENT_PROVIDER`: `mock` or `stripe`
 - `STRIPE_SECRET_KEY`: Stripe secret key for hosted checkout session creation
@@ -78,11 +80,6 @@ Supported variables:
 - `RESEND_API_KEY`: Resend API key when `EMAIL_PROVIDER=resend`
 - `SENDGRID_API_KEY`: SendGrid API key when `EMAIL_PROVIDER=sendgrid`
 - `DEMO_RESET=true`: reset runtime data on startup
-- `TYPEFORM_FORM_ID`: the live Typeform form id used on `/start`
-- `TYPEFORM_API_TOKEN`: Typeform personal access token used for webhook registration and fallback response syncing
-- `TYPEFORM_API_BASE_URL`: defaults to `https://api.typeform.com`
-- `TYPEFORM_WEBHOOK_SECRET`: optional secret for verifying signed Typeform webhook payloads
-- `TYPEFORM_WEBHOOK_TAG`: optional webhook tag name, defaults to `fell-concierge`
 
 ## Deployment
 
@@ -118,8 +115,10 @@ I added [render.yaml](/C:/Users/csjon/Documents/Codex/2026-04-21-build-an-mvp-we
    - `ADMIN_EMAIL=your real admin email`
    - `ADMIN_PASSWORD=a strong password`
    - `SESSION_SECRET=a strong secret`
+   - `PORTAL_LINK_SECRET=a separate strong secret`
    - `EMAIL_PROVIDER=resend` or `sendgrid` when ready
    - `EMAIL_FROM=hello@fell-co.com`
+   - `RESEND_API_KEY=...` or `SENDGRID_API_KEY=...`
    - payment variables if you later enable Stripe
 5. Deploy
 
@@ -299,7 +298,7 @@ Provider modes:
 - `EMAIL_PROVIDER=resend`: sends through the Resend API
 - `EMAIL_PROVIDER=sendgrid`: sends through the SendGrid API
 
-Delivery attempts are stored in SQLite and surfaced in the admin dashboard. I implemented provider integrations and runtime logging, but I have not live-tested external delivery in this restricted environment.
+Profile result emails include a signed `/portal?token=...` return link, so clients can get back to their saved profile without exposing a raw client id in the email. Delivery attempts are stored in SQLite and surfaced in the admin dashboard. I implemented provider integrations and runtime logging, but I have not live-tested external delivery in this restricted environment.
 
 ## Intake Uploads
 
@@ -344,7 +343,6 @@ This makes the app demoable immediately after startup.
 
 ## Recommended Next Integrations
 
-- Typeform or website form embed for external quiz capture
 - transactional email provider for profile result and offer follow-up
 - CubiCasa or similar scan/floorplan intake
 - deeper Stripe production hardening and reconciliation

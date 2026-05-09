@@ -8,7 +8,6 @@ import { handleIntakeRoutes } from "./routes/intakeRoutes.ts";
 import { handleOperationsRoutes } from "./routes/operationsRoutes.ts";
 import { handlePaymentRoutes } from "./routes/paymentRoutes.ts";
 import { handlePublicRoutes } from "./routes/publicRoutes.ts";
-import { registerTypeformWebhook } from "./integrations/typeform/client.ts";
 import { getEmailProviderLabel } from "./integrations/email/delivery.ts";
 import { getPaymentProviderLabel } from "./integrations/payments/checkout.ts";
 import { ensureFallonAgentState } from "./core/fallon/agentRuntime.ts";
@@ -37,10 +36,6 @@ if (process.env.DEMO_RESET === "true") {
 }
 
 ensureDefaultAdmin();
-
-void registerTypeformWebhook().catch((error) => {
-  console.error("Typeform webhook registration skipped:", error instanceof Error ? error.message : error);
-});
 
 const server = createServer(async (request, response) => {
   const url = new URL(request.url ?? "/", `http://${request.headers.host}`);

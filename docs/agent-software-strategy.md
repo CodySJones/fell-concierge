@@ -12,7 +12,7 @@ It should own the parts where custom logic, controlled handoff, and branded clie
 These are the parts that are defensible as custom software:
 
 1. Intake normalization
-- receive quiz submissions from Typeform
+- receive quiz submissions from the native website quiz
 - normalize them into a stable internal client/project shape
 - map quiz answers into the Fell & Co style taxonomy
 
@@ -46,26 +46,22 @@ These are the parts that are defensible as custom software:
 
 These should remain outside the core app unless there is a strong reason to bring them in:
 
-1. Typeform
-- quiz authoring
-- image-based quiz UI for now
-
-2. Airtable
+1. Airtable
 - operational source of truth for broader client/project workflows if that remains the chosen ops layer
 
-3. Glide
+2. Glide
 - lightweight client dashboard if it outpaces the custom portal for speed
 
-4. Zapier
-- glue between Typeform, Airtable, email, and scheduling systems
+3. Zapier
+- glue between Airtable, email, and scheduling systems
 
-5. Calendly
+4. Calendly
 - booking
 
-6. Stripe or external checkout
+5. Stripe or external checkout
 - payment processing itself
 
-7. Gmail / Resend / SendGrid
+6. Gmail / Resend / SendGrid
 - message delivery rather than in-app communication tooling
 
 ## Where The Current App Is Misaligned
@@ -124,12 +120,11 @@ Files:
 - `src/server.ts`
 
 Problem:
-- routing, orchestration, Typeform handling, portal actions, payments, and admin behavior all live in one file
+- routing, orchestration, intake, portal actions, payments, and admin behavior all live in one file
 
 Recommendation:
 - split route handlers by domain:
   - intake
-  - typeform
   - portal
   - admin
   - payments
@@ -156,8 +151,7 @@ Recommendation:
 The app should evolve toward this shape:
 
 1. `intake`
-- Typeform payload ingestion
-- future custom quiz ingestion
+- native quiz ingestion
 - normalization into internal entities
 
 2. `profile-engine`
@@ -179,7 +173,6 @@ The app should evolve toward this shape:
 - read-only or lightly interactive client-facing layer
 
 6. `integrations`
-- Typeform
 - Airtable
 - payments
 - email
@@ -202,7 +195,6 @@ Define a stable internal domain around:
 Create adapter boundaries for:
 - payments
 - email
-- Typeform
 
 ### Priority 4
 Reduce client portal scope to agent-facing essentials.

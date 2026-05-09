@@ -4,6 +4,7 @@ import { getClientBundle } from "../data/runtimeStore.ts";
 import { getFallonAgentSnapshot } from "../core/fallon/agentRuntime.ts";
 import { getEmailProviderLabel } from "../integrations/email/delivery.ts";
 import { getPaymentProviderLabel, renderMockCheckoutPage, decodePaymentToken } from "../integrations/payments/checkout.ts";
+import { decodePortalToken } from "../services/portalLinks.ts";
 import { send, sendJson, sendStaticFile } from "../lib/http.ts";
 import { renderPortalPage } from "../ui/portalPages.ts";
 import { renderHomePage, renderPortalAccessPage, renderResultPage, renderStartPage } from "../ui/publicPages.ts";
@@ -64,8 +65,14 @@ export const handlePublicRoutes: RouteHandler = async ({ request, response, url,
   }
 
   if (request.method === "GET" && url.pathname === "/portal") {
-    const clientId = url.searchParams.get("id");
+    const portalToken = url.searchParams.get("token");
+    const tokenPayload = portalToken ? decodePortalToken(portalToken) : null;
+    const clientId = tokenPayload?.clientId ?? url.searchParams.get("id");
     const bundle = clientId ? getClientBundle(state, clientId) : undefined;
+    if (portalToken && (!tokenPayload || !bundle || bundle.client.email.trim().toLowerCase() !== tokenPayload.email)) {
+      send(response, 401, renderPortalAccessPage("That profile link is invalid or expired. Please retake the quiz or ask Fell & Co for a fresh link."));
+      return true;
+    }
     if (!bundle) {
       if (!clientId) {
         send(response, 200, renderPortalAccessPage());

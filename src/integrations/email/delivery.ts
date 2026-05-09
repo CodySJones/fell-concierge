@@ -2,10 +2,20 @@ import { randomUUID } from "node:crypto";
 import type { AppState, ClientBundle, EmailDelivery, EmailTemplateType } from "../../types.ts";
 import { renderEmailTemplate } from "./templates.ts";
 
-const provider = process.env.EMAIL_PROVIDER ?? "log";
+const requestedProvider = process.env.EMAIL_PROVIDER ?? "log";
 const fromEmail = process.env.EMAIL_FROM ?? "hello@fell-co.com";
 const resendApiKey = process.env.RESEND_API_KEY ?? "";
 const sendgridApiKey = process.env.SENDGRID_API_KEY ?? "";
+
+const effectiveProvider = () => {
+  if (requestedProvider === "resend" && resendApiKey) {
+    return "resend";
+  }
+  if (requestedProvider === "sendgrid" && sendgridApiKey) {
+    return "sendgrid";
+  }
+  return "log";
+};
 
 const sendViaResend = async (to: string, subject: string, html: string, text: string) => {
   const response = await fetch("https://api.resend.com/emails", {
@@ -57,10 +67,10 @@ const sendViaSendGrid = async (to: string, subject: string, html: string, text: 
 };
 
 export const getEmailProviderLabel = () => {
-  if (provider === "resend" && resendApiKey) {
+  if (effectiveProvider() === "resend") {
     return "Resend";
   }
-  if (provider === "sendgrid" && sendgridApiKey) {
+  if (effectiveProvider() === "sendgrid") {
     return "SendGrid";
   }
   return "Log-only";
@@ -82,10 +92,11 @@ export const sendTemplatedEmail = async (state: AppState, bundle: ClientBundle, 
   };
 
   try {
-    if (provider === "resend" && resendApiKey) {
+    const provider = effectiveProvider();
+    if (provider === "resend") {
       baseDelivery.provider_message_id = await sendViaResend(bundle.client.email, email.subject, email.html, email.text);
       baseDelivery.status = "SENT";
-    } else if (provider === "sendgrid" && sendgridApiKey) {
+    } else if (provider === "sendgrid") {
       baseDelivery.provider_message_id = await sendViaSendGrid(bundle.client.email, email.subject, email.html, email.text);
       baseDelivery.status = "SENT";
     } else {
