@@ -151,18 +151,35 @@ export const renderMockCheckoutPage = (bundle: ClientBundle, token: string, amou
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mock Checkout</title>
     <style>
-      body { margin:0; font-family: Georgia, serif; background:#f5efe7; color:#1f1b18; }
-      main { max-width:760px; margin:40px auto; padding:0 20px; }
-      .card { background:#fffdf8; border:1px solid #ded3c6; border-radius:24px; padding:28px; box-shadow:0 20px 50px rgba(38,28,18,0.08); display:grid; gap:16px; }
-      .pill { display:inline-block; padding:8px 12px; border-radius:999px; background:#efe3d8; color:#6e655d; font-size:12px; text-transform:uppercase; letter-spacing:0.08em; }
-      button { padding:12px 16px; border:none; border-radius:14px; background:#1f1b18; color:white; font-size:16px; cursor:pointer; }
-      .ghost { background:#ece5dc; color:#1f1b18; }
-      .toolbar { display:flex; gap:12px; flex-wrap:wrap; }
-      .note { color:#6e655d; }
+      :root {
+        --bg: #f2ebe1;
+        --paper: #fffaf3;
+        --ink: #1d1a17;
+        --muted: #676058;
+        --line: #d9cfc3;
+        --serif-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Baskerville, Georgia, serif;
+        --sans-quiet: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      body { margin:0; font-family:var(--sans-quiet); background:var(--bg); color:var(--ink); -webkit-font-smoothing: antialiased; }
+      main { width:min(760px, calc(100vw - 48px)); min-height:100svh; margin:0 auto; padding:28px 0 64px; display:grid; align-content:center; }
+      .brand { width:146px; max-width:38vw; display:block; margin-bottom: clamp(42px, 8vw, 86px); opacity:0.96; mix-blend-mode:multiply; }
+      .card { background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:clamp(24px, 5vw, 38px); display:grid; gap:16px; }
+      .pill { display:inline-flex; width:fit-content; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0; }
+      h1 { margin:0; font-family:var(--serif-display); font-size:clamp(2.4rem, 7vw, 4.2rem); line-height:1; font-weight:400; letter-spacing:0; }
+      p { margin:0; color:var(--muted); font-size:16px; line-height:1.7; }
+      strong { color:var(--ink); font-weight:600; }
+      button { width:100%; padding:13px 16px; border:none; border-radius:8px; background:var(--ink); color:var(--bg); font-family:var(--sans-quiet); font-size:12px; text-transform:uppercase; letter-spacing:0; cursor:pointer; }
+      .ghost { background:#ece5dc; color:var(--ink); }
+      .toolbar { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; margin-top:8px; }
+      .toolbar a { text-decoration:none; }
+      .note { color:var(--muted); }
+      @media (max-width: 560px) { .toolbar { grid-template-columns:1fr; } }
     </style>
   </head>
   <body>
     <main>
+      <img class="brand" src="/assets/fell-co-brand.svg" alt="Fell & Co" />
       <div class="card">
         <span class="pill">Mock Payment Flow</span>
         <h1>${PRODUCT_LABELS[productType]}</h1>
